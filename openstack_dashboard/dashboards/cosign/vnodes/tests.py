@@ -10,14 +10,10 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from django.conf.urls import patterns
-from django.conf.urls import url
-
-from openstack_dashboard.dashboards.cosign.vdc.views \
-    import IndexView
+from horizon.test import helpers as test
 
 
-urlpatterns = patterns(
-    '',
-    url(r'^$', IndexView.as_view(), name='index'),
-)
+class VnodesTests(test.TestCase):
+    # Unit tests for vnodes.
+    def test_me(self):
+        self.assertTrue(1 + 1 == 2)

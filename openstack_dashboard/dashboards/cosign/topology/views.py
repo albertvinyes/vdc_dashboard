@@ -10,21 +10,13 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from django.utils.translation import ugettext_lazy as _
-
-import horizon
+from horizon import views
 
 
-class Mygroup(horizon.PanelGroup):
-    slug = "mygroup"
-    name = ("Virtual Data Center")
-    panels = ('topology','vnodes','vlinks')
+class IndexView(views.APIView):
+    # A very simple class-based view...
+    template_name = 'cosign/topology/index.html'
 
-class Cosign(horizon.Dashboard):
-    name = _("COSIGN Use Cases")
-    slug = "cosign"
-    panels = (Mygroup,)
-    default_panel = 'topology'  # Specify the slug of the dashboard's default panel.
-
-
-horizon.register(Cosign)
+    def get_data(self, request, context, *args, **kwargs):
+        # Add data to the context here...
+        return context

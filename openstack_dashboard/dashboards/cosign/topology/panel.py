@@ -10,10 +10,14 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from horizon.test import helpers as test
+from django.utils.translation import ugettext_lazy as _
+
+import horizon
+from openstack_dashboard.dashboards.cosign import dashboard
+
+class Topology(horizon.Panel):
+    name = _("VDC Topology")
+    slug = "topology"
 
 
-class VdcTests(test.TestCase):
-    # Unit tests for vdc.
-    def test_me(self):
-        self.assertTrue(1 + 1 == 2)
+dashboard.Cosign.register(Topology)

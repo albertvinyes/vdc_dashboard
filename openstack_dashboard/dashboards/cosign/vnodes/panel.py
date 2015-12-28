@@ -13,18 +13,11 @@
 from django.utils.translation import ugettext_lazy as _
 
 import horizon
+from openstack_dashboard.dashboards.cosign import dashboard
+
+class Vnodes(horizon.Panel):
+    name = _("Virtual Nodes")
+    slug = "vnodes"
 
 
-class Mygroup(horizon.PanelGroup):
-    slug = "mygroup"
-    name = ("Virtual Data Center")
-    panels = ('topology','vnodes','vlinks')
-
-class Cosign(horizon.Dashboard):
-    name = _("COSIGN Use Cases")
-    slug = "cosign"
-    panels = (Mygroup,)
-    default_panel = 'topology'  # Specify the slug of the dashboard's default panel.
-
-
-horizon.register(Cosign)
+dashboard.Cosign.register(Vnodes)

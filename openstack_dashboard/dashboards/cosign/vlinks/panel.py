@@ -10,13 +10,14 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from horizon import views
+from django.utils.translation import ugettext_lazy as _
+
+import horizon
+from openstack_dashboard.dashboards.cosign import dashboard
+
+class Vlinks(horizon.Panel):
+    name = _("Virtual Links")
+    slug = "vlinks"
 
 
-class IndexView(views.APIView):
-    # A very simple class-based view...
-    template_name = 'cosign/vdc/index.html'
-
-    def get_data(self, request, context, *args, **kwargs):
-        # Add data to the context here...
-        return context
+dashboard.Cosign.register(Vlinks)

@@ -10,21 +10,14 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from django.utils.translation import ugettext_lazy as _
+from django.conf.urls import patterns
+from django.conf.urls import url
 
-import horizon
-
-
-class Mygroup(horizon.PanelGroup):
-    slug = "mygroup"
-    name = ("Virtual Data Center")
-    panels = ('topology','vnodes','vlinks')
-
-class Cosign(horizon.Dashboard):
-    name = _("COSIGN Use Cases")
-    slug = "cosign"
-    panels = (Mygroup,)
-    default_panel = 'topology'  # Specify the slug of the dashboard's default panel.
+from openstack_dashboard.dashboards.cosign.topology.views \
+    import IndexView
 
 
-horizon.register(Cosign)
+urlpatterns = patterns(
+    '',
+    url(r'^$', IndexView.as_view(), name='index'),
+)
