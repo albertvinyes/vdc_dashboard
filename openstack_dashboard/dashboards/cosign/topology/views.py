@@ -11,6 +11,7 @@
 # under the License.
 
 from horizon import views
+from django.shortcuts import render
 
 
 class IndexView(views.APIView):
@@ -20,3 +21,6 @@ class IndexView(views.APIView):
     def get_data(self, request, context, *args, **kwargs):
         # Add data to the context here...
         return context
+
+def index(request):
+    return render(request, 'cosign/topology/index.html', context)
