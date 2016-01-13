@@ -10,8 +10,16 @@ jsPlumb.ready(function() {
 
 	/* Make elements draggable within the container bounds */
 	var nonPlumbing = jsPlumb.getInstance();
+    $('.box').draggable({
+            start: function(event, ui) {
+                ui.helper.bind("click.prevent",
+                    function(event) { event.preventDefault(); });
+            },
+            stop: function(event, ui) {
+                setTimeout(function(){ui.helper.unbind("click.prevent");}, 30);
+            },containment: "parent"
+    })
 	jsPlumb.setContainer($(".topology-container"));
-	
 	jsPlumb.draggable($(".box"), {
 	   containment:true
 	});
@@ -25,7 +33,7 @@ jsPlumb.ready(function() {
 	var exampleColor = "#3F51B5";
 	var exampleEndpoint1 = {
         endpoint: "Rectangle",
-        paintStyle: { width: 25, height: 21, fillStyle: exampleColor },
+        paintStyle: { width: 25, height: 10, fillStyle: exampleColor },
         isSource: true,
         reattach: true,
         scope: "blue",
@@ -36,9 +44,8 @@ jsPlumb.ready(function() {
                 [0.5, "#09098e"],
                 [1, exampleColor]
             ]},
-            lineWidth: 3,
-            strokeStyle: exampleColor,
-            dashstyle: "8 2"
+            lineWidth: 2,
+            strokeStyle: exampleColor
         },
         isTarget: true,
         beforeDrop: function (params) {

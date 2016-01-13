@@ -12,14 +12,14 @@
 
 from horizon import views
 from django.shortcuts import render
-
+from django.template import *
 
 class IndexView(views.APIView):
     # A very simple class-based view...
     template_name = 'cosign/topology/index.html'
-
     def get_data(self, request, context, *args, **kwargs):
         # Add data to the context here...
+        context = RequestContext(request)
         return context
 
 def index(request):
