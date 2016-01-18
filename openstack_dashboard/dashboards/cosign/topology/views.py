@@ -19,7 +19,7 @@ class IndexView(views.APIView):
     template_name = 'cosign/topology/index.html'
     def get_data(self, request, context, *args, **kwargs):
         # Add data to the context here...
-        context = RequestContext(request)
+        #context = RequestContext(request)
         return context
 
 def index(request):

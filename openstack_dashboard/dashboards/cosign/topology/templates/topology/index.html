@@ -2,39 +2,27 @@
 {% load i18n %}
 {% block title %}{% trans "Topology" %}{% endblock %}
 {% block page_header %}
-  {% include "horizon/common/_page_header.html" with title=_("Topology") %}
+{% include "horizon/common/_page_header.html" with title=_("Topology") %}
 {% endblock page_header %}
 {% block main %}
 {% include "horizon/_messages.html" %}
-<link rel="stylesheet" href="{{ STATIC_URL }}cosign/css/topology.css" type="text/css" media="screen" >
-<noscript>Your browser does not support JavaScript!</noscript>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}cosign/js/jsPlumb.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}cosign/js/links.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}cosign/js/dialogs.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}cosign/js/balloons.js"></script>
+{% include 'cosign/topology/scripts.html' %}
 <!-- Buttons container -->
-<div class="topologyNavi">
-    <div class="toggleView btn-group" data-toggle="buttons-radio">
-        <button type="button" class="btn btn-default">
-            <span class="fafa-th-large glyphicon glyphicon-th-large"></span> Toggle labels
-        </button>
-    </div>
-    <div class="launchButtons">
-        <button type="button" class="btn btn-default">
-            <span class="fafa-th-large  glyphicon glyphicon-plus"></span> Create Virtual Node
-        </button>
-    </div>
-</div>
+{% include 'cosign/topology/buttons.html' %}
 <!-- Topology container-->
 <div class="topology-container">    
-    <div class="box" id="box-1"></div>
-    <div class="box" id="box-2"></div>
-    <div class="box" id="box-3"></div>
-    {% for VirtualNode in virtual_node %}
-        <div class="box" id="{{ virtual_node.label }}"> </div>
-    {% endfor %}
+    <div class="box" id="box-1" data-label="Virtual node 1">
+        <span class="hide"> Virtual node 1 </span>
+    </div>
+    <div class="box" id="box-2" data-label="Virtual node 2">
+        <span class="hide"> Virtual node 2 </span>
+    </div>
+    <div class="box" id="box-3" data-label="Virtual node 3">
+        <span class="hide"> Virtual node 3 </span>
+    </div>
+    <div class="box" id="box-4" data-label="Virtual node 4">
+        <span class="hide"> Virtual node 4 </span>
+    </div>
     {% include 'cosign/topology/balloon.html' %}
     </div>
 </div> 

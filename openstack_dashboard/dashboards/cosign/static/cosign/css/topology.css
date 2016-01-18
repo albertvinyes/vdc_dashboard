@@ -6,27 +6,28 @@
     background: #FFF none repeat scroll 0% 0%;
     min-height: 800px;
     position: relative;
-    border: 1px solid #AAA;
+    box-shadow: inset 0px 0px 5px 1px rgba(79,79,79,0.5);
 }
 .box {
     width: 92px;
-    height: 107px;
+    height: 109px;
     position: absolute;
     background: url(../img/stack-gray.svg) 0 20px no-repeat;
+    text-align: center;
 }
 #box-1 {
-    top: 100px;
+    top: 30px;
     left: 50px;
 }
 #box-2 {
-    left: 250px;
+    left: 463px;
 }
 #box-3 {
     top: 210px;
-    left: 50px;
+    left: 150px;
 }
 #box-4 {
-    left: 250px;
+    left: 510px;
     top: 250px;
 }
 #balloon {
@@ -47,4 +48,13 @@
     height: 0;
     display: none;
 }
-
+@keyframes fading {
+    from {opacity:1}
+    to {opacity:0.3}}
+}
+.fading {
+    animation: fading 2s infinite;
+}
+.center {
+    left: 45%;
+}

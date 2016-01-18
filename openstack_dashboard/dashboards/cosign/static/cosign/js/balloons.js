@@ -4,12 +4,12 @@ $(function() {                                          //Document ready
     var a = $('.popover-arrow');
     d.css("position", "absolute");
     $('.box').click(function(event) {
-       var posX = $(this).position().left + $('.box').width() + 12 ,
+       var posX = $(this).position().left + $('.box').width() + 5 ,
            posY = $(this).position().top - 5;
         d.show();
         a.show();
-        d.css({"left": posX, "top": posY});
-        a.css({"left": posX-10, "top": posY+30});
+        d.css({"left": posX, "top": posY+20});
+        a.css({"left": posX-10, "top": posY+50});
     });
 
     $('.closeTopologyBalloon').click(function() {
