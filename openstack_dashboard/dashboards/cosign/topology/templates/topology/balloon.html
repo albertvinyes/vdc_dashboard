@@ -1,3 +1,4 @@
+<!--
 <div id="balloon" class="topologyBalloon" title="Balloon Title">
     <a href="#nothing" class="closeTopologyBalloon">x</a>
     <div class="contentBody">
@@ -17,8 +18,121 @@
              </tbody>
         </table>
         <div class="portTableHeader">
-            <div class="title">Virtual Machines</div>
+                <table class="detailInfoTable">
+                     <caption>Label</caption>
+                     <tbody>
+                         <tr>
+                              <th class="device">ID</th>
+                              <td>e1848032-a7a7-44b5-852c-dc42e2381552</td>
+                         </tr>
+                         <tr>
+                              <th class="device">STATUS</th>
+                              <td>
+                                  <span class="active">ACTIVE</span>
+                              </td>
+                         </tr>
+                     </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="popover-arrow"> </div>
+</div>
+-->
+<div id="balloon" class="topologyBalloon" title="Balloon Title">
+    <a href="#nothing" class="closeTopologyBalloon">x</a>
+    <div class="contentBody">
+        <table class="detailInfoTable">
+            <caption>Label</caption>
+            <tbody>
+                <tr>
+                    <th class="device">ID</th>
+                    <td>e1848032-a7a7-44b5-852c-dc42e2381552</td>
+                </tr>
+                <tr>
+                    <th class="device">STATUS</th>
+                    <td>
+                        <span class="active">ACTIVE</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="portTableHeader">
+            <div class="title">Virtual Machines</div>
+            <div class="action">
+                <a class="add-subnet btn btn-default btn-xs ajax-modal network" href="/project/instances/launch" 
+                   data-update-url="/project/instances/?action=launch&table=instances">
+                    <span class="fa fa-plus"></span>
+                    Add VMs
+                </a>
+            </div>
+        </div>
+        <table class="detailInfoTable" style="width:100%">
+            <caption></caption>
+            <tbody>
+                <tr>
+                    <th>
+                        <span title="c8d63424-4ea4-4a46-9df7-7b36f637e32e">
+                            <a href="/project/networks/subnets/c8d63424-4ea4-4a46-9df7-7b36f637e32e/detail">d61075e7-7140-4eaa-b724-c91945eae6d6</a>
+                        </span>
+                    </th>
+                    <td>nano-1</td>
+                    <td class="delete">
+                        <button class="delete-port btn btn-danger btn-xs" data-router-id="" data-network-id="d61075e7-7140-4eaa-b724-c91945eae6d6" data-port-id="c8d63424-4ea4-4a46-9df7-7b36f637e32e">Remove VM</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <span title="6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de">
+                            <a href="/project/networks/subnets/6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de/detail">d61075e7-7140-4eaa-b724-c91945eae6d6</a>
+                        </span>
+                    </th>
+                    <td>nano-2</td>
+                    <td class="delete">
+                        <button class="delete-port btn btn-danger btn-xs" data-router-id="" data-network-id="d61075e7-7140-4eaa-b724-c91945eae6d6" data-port-id="6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de">Remove VM</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="portTableHeader">
+            <div class="title">Virtual Links</div>
+        </div>
+        <table class="detailInfoTable" style="width:100%">
+            <caption></caption>
+            <tbody>
+                <tr>
+                    <th>
+                        <span title="c8d63424-4ea4-4a46-9df7-7b36f637e32e">
+                            <a href="/project/networks/subnets/c8d63424-4ea4-4a46-9df7-7b36f637e32e/detail">d61075e7-7140-4eaa-b724-c91945eae6d6</a>
+                        </span>
+                    </th>
+                    <td>v-link-1</td>
+                    <td class="delete">
+                        <button class="delete-port btn btn-danger btn-xs" data-router-id="" data-network-id="d61075e7-7140-4eaa-b724-c91945eae6d6" data-port-id="c8d63424-4ea4-4a46-9df7-7b36f637e32e">Remove Link</button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <span title="6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de">
+                            <a href="/project/networks/subnets/6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de/detail">d61075e7-7140-4eaa-b724-c91945eae6d6</a>
+                        </span>
+                    </th>
+                    <td>v-link-2</td>
+                    <td class="delete">
+                        <button class="delete-port btn btn-danger btn-xs" data-router-id="" data-network-id="d61075e7-7140-4eaa-b724-c91945eae6d6" data-port-id="6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de">Remove Link</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer">
+        <div class="footerInner">
+            <div class="cell link">
+                <a href="/project/networks/d61075e7-7140-4eaa-b724-c91945eae6d6/detail">» View Details</a>
+            </div>
+            <div class="cell delete">
+                <button class="delete-device btn btn-danger btn-xs network" data-type="network" data-device-id="d61075e7-7140-4eaa-b724-c91945eae6d6">Delete Virtual Node</button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -11,6 +11,7 @@
 {% include 'cosign/topology/buttons.html' %}
 <!-- Topology container-->
 <div class="topology-container">    
+
     <div class="box" id="box-1" data-label="Virtual node 1">
         <span class="hide"> Virtual node 1 </span>
     </div>
@@ -20,9 +21,11 @@
     <div class="box" id="box-3" data-label="Virtual node 3">
         <span class="hide"> Virtual node 3 </span>
     </div>
-    <div class="box" id="box-4" data-label="Virtual node 4">
-        <span class="hide"> Virtual node 4 </span>
-    </div>
+   <!-- {#{% for vnode in virtual_nodes %}
+        <div class="box" id="{{vnode.identifier}}">
+            <span class="hide"> {{ vnode.label }} </span>
+        </div>
+    {% endfor %}#}-->
     {% include 'cosign/topology/balloon.html' %}
     </div>
 </div> 

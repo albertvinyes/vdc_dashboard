@@ -1,10 +1,13 @@
-/* Dialogs for the VDC Topology*/
-$(function() {                                          //Document ready
+/* Dialogs for the VDC Topology */
+function makeClickable() {
     var d =  $('#balloon');
     var a = $('.popover-arrow');
     d.css("position", "absolute");
     $('.box').click(function(event) {
-       var posX = $(this).position().left + $('.box').width() + 5 ,
+        if ($(this).hasClass('ui-draggable-dragging')) {  
+            return false;
+        }
+        var posX = $(this).position().left + $('.box').width() + 5 ,
            posY = $(this).position().top - 5;
         d.show();
         a.show();
@@ -23,4 +26,9 @@ $(function() {                                          //Document ready
             a.hide();
         }
     });
+};
+
+$(function() {
+    makeClickable();
 });
+

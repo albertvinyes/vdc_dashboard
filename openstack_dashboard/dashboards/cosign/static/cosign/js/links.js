@@ -2,7 +2,7 @@
 var exampleDropOptions = {
     tolerance: "touch",
     hoverClass: "dropHover",
-    detachable:true,
+    detachable: false,
     activeClass: "dragActive"
 };
 var exampleColor = "#3F51B5";
@@ -13,7 +13,7 @@ var linkStyle = {
         [1, exampleColor]
     ]},
     lineWidth: 2,
-    strokeStyle: exampleColor
+    strokeStyle: exampleColor,
 };
 var anchorStyle = {
     endpoint: ["Rectangle", { width:25, height: 10} ]
@@ -26,11 +26,13 @@ var exampleEndpoint1 = {
     scope: "blue",
     maxConnections: 30,
     connectorStyle: linkStyle,
+    connector: ["Flowchart", {cornerRadius: 6}],
     isTarget: true,
     /*beforeDrop: function (params) {
         return confirm("Connect " + params.sourceId + " to " + params.targetId + "?");
     },*/
-    dropOptions: exampleDropOptions
+    //dropOptions: exampleDropOptions
+    detachable: false
 };
 
 jsPlumb.ready(function() {
@@ -56,7 +58,9 @@ jsPlumb.ready(function() {
                     paintStyle: linkStyle,
                     endpoint: ["Rectangle", { width:25, height: 10} ],
                     endpointStyle: exampleColor,
-                    dropOptions: exampleDropOptions
+                    dropOptions: exampleDropOptions,
+                    connector: ["Flowchart", {cornerRadius: 6}],
+                    detachable: false
                 });
             }
         });
@@ -66,13 +70,13 @@ jsPlumb.ready(function() {
 	var nonPlumbing = jsPlumb.getInstance();
     $('.box').draggable({
             start: function(event, ui) {
-                $(event.target).addClass("fading");
                 ui.helper.bind("click.prevent",
                     function(event) { event.preventDefault(); });
             },
             stop: function(event, ui) {
-                $(event.target).removeClass("fading");
-                setTimeout(function(){ui.helper.unbind("click.prevent");}, 300);
+                setTimeout(function(){
+                    ui.helper.unbind("click.prevent");
+                    console.log("unbind!")}, 1);
             },containment: "parent"
     })
 	jsPlumb.setContainer($(".topology-container"));

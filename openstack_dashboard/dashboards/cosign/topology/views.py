@@ -13,6 +13,14 @@
 from horizon import views
 from django.shortcuts import render
 from django.template import *
+import uuid
+
+class VirtualNode(object):
+    def __init__(self, label, top, left):
+        self.label = label
+        self.top = top
+        self.left = left
+        self.identifier = str(uuid.uuid4())
 
 class IndexView(views.APIView):
     # A very simple class-based view...
@@ -20,7 +28,13 @@ class IndexView(views.APIView):
     def get_data(self, request, context, *args, **kwargs):
         # Add data to the context here...
         #context = RequestContext(request)
+        vnodes = []
+        vnodes.append(VirtualNode("vnode1","50px","50px"))
+        vnodes.append(VirtualNode("vnode2","200px","240px"))
+        context["virtual_nodes"] = vnodes
         return context
 
+
 def index(request):
-    return render(request, 'cosign/topology/index.html', context)
+    index = "index"
+    return render(request, 'cosign/topology/index.html',context)

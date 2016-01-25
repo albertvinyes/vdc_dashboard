@@ -1,12 +1,15 @@
-jsPlumb.ready(function()  {
+$(function () {
+    $('.toggleView').click(function() {
+        $('.box span').toggleClass("hide");    
+    });
     $('#create-vnode').click( function() {
-        //demanar label
         var label;
-        bootbox.prompt("Enter desired Label for the new <strong> Virtual Node </strong>", function(result) {                
+        console.log("click!");
+        bootbox.prompt("Enter desired Label for the new <strong> Virtual Node </strong>", function(result) {
             if (result === null) {
-            
+
             }
-            else {                                             
+            else {
                 label = result;
                 var activeLabels = ($('#toggle-button').hasClass("active"));
                 var vnode;
@@ -20,6 +23,7 @@ jsPlumb.ready(function()  {
                 $('.topology-container').append(vnode);
                 createEndpoint(label);
                 makeDraggable(label);
+                makeClickable();
             }
         });
     });
