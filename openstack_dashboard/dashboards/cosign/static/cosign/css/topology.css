@@ -1,19 +1,24 @@
 /* Additional CSS for {{ dash_name }}. */
+body, html {
+    height:100%;
+}
+.row {
+    width:100%;
+}
 .topology-container {
     width: 100%;
-    height: auto;
+    height: 100%;
+    min-height: 540px;
     padding: 25px 25px 25px 50px;
     background: #FFF none repeat scroll 0% 0%;
-    min-height: 800px;
     position: relative;
-    box-shadow: inset 0px 0px 5px 1px rgba(79,79,79,0.5);
 }
 .box {
     width: 92px;
-    height: 109px;
+    height: 92px;
     position: absolute;
-    background: url(../img/stack-gray.svg) 0 20px no-repeat;
-    text-align: center;
+    background: url(../img/stack-gray.svg) 0 0px no-repeat;
+    text-align:center;
 }
 #box-1 {
     top: 30px;
@@ -48,13 +53,20 @@
     height: 0;
     display: none;
 }
-@keyframes fading {
-    from {opacity:1}
-    to {opacity:0.3}}
+.box span {
+    position: relative;
+    top: -20px;
 }
-.fading {
-    animation: fading 2s infinite;
+@-webkit-keyframes focus {
+    from {box-shadow: none;}
+    to {box-shadow: inset 0px 0px 5px 1px rgb(79,79,79);}
 }
-.center {
-    left: 45%;
+@keyframes focus {
+    from {box-shadow: none;}
+    to {box-shadow: inset 0px 0px 5px 1px rgb(79,79,79);}
+}
+
+.focus {
+    animation: focus 1s ease forwards; 
+    -webkit-animation: focus 1s ease forwards;
 }

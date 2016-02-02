@@ -68,7 +68,7 @@ jsPlumb.ready(function() {
 
 	/* Make elements draggable within the container bounds */
 	var nonPlumbing = jsPlumb.getInstance();
-    $('.box').draggable({
+    /*$('.box').draggable({
             start: function(event, ui) {
                 ui.helper.bind("click.prevent",
                     function(event) { event.preventDefault(); });
@@ -76,9 +76,20 @@ jsPlumb.ready(function() {
             stop: function(event, ui) {
                 setTimeout(function(){
                     ui.helper.unbind("click.prevent");
-                    console.log("unbind!")}, 1);
+                    console.log("unbind!")}, 30);
             },containment: "parent"
-    })
+    })*/
+    $('.box').draggable({
+        start: function(event){
+            $(this).addClass('dragging');
+        },
+        stop: function(event){
+            console.log("dragged " + this.id);
+            setTimeout(function(){
+                $(this).removeClass('dragging');
+            }, 1);
+        }
+    });
 	jsPlumb.setContainer($(".topology-container"));
 	jsPlumb.draggable($(".box"), {
 	   containment:true

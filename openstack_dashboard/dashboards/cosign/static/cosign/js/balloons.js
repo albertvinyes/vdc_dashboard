@@ -7,6 +7,7 @@ function makeClickable() {
         if ($(this).hasClass('ui-draggable-dragging')) {  
             return false;
         }
+        //if($(this).data('dragging')) return;
         var posX = $(this).position().left + $('.box').width() + 5 ,
            posY = $(this).position().top - 5;
         d.show();
