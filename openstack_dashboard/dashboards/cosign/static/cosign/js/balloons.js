@@ -4,7 +4,7 @@ function makeClickable() {
     var a = $('.popover-arrow');
     d.css("position", "absolute");
     $('.box').click(function(event) {
-        if ($(this).hasClass('ui-draggable-dragging')) {  
+        if ($(this).hasClass('jsplumb-drag')) {  
             return false;
         }
         //if($(this).data('dragging')) return;

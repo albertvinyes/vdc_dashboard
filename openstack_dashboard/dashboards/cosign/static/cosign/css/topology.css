@@ -2,6 +2,9 @@
 body, html {
     height:100%;
 }
+.initialized {
+    display:none;
+}
 .row {
     width:100%;
 }
@@ -10,7 +13,6 @@ body, html {
     height: 100%;
     min-height: 540px;
     margin-bottom: 10px;
-    padding: 25px 25px 25px 50px;
     background: #FFF none repeat scroll 0% 0%;
     position: relative;
 }
@@ -67,7 +69,8 @@ body, html {
     to {box-shadow: inset 0px 0px 5px 1px rgb(79,79,79);}
 }
 
-.focus {
+.focus {/*
     animation: focus 1s ease forwards; 
-    -webkit-animation: focus 1s ease forwards;
+    -webkit-animation: focus 1s ease forwards;*/
+    box-shadow: inset 0px 0px 5px 1px rgb(79,79,79);
 }

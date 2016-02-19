@@ -9,11 +9,11 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
-
 from horizon import views
 from django.shortcuts import render
 from django.template import *
 import uuid
+from django.http import HttpResponse
 
 class VirtualNode(object):
     def __init__(self, label, top, left):
@@ -32,8 +32,17 @@ class IndexView(views.APIView):
         vnodes.append(VirtualNode("vnode1","50px","50px"))
         vnodes.append(VirtualNode("vnode2","200px","240px"))
         context["virtual_nodes"] = vnodes
+        context["state"] = "uninitialized"
         return context
 
+def create_vnode(request):
+    print "hola que tal, QUE TAL....................................................................................."
+    create_vnode = "create_vnode"
+    if request.is_ajax():
+        message = "Yes, AJAX!"
+    else:
+        message = "Not Ajax"
+    return HttpResponse(message)
 
 def index(request):
     index = "index"

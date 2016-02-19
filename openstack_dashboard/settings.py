@@ -378,3 +378,4 @@ from openstack_auth import utils as auth_utils
 auth_utils.patch_middleware_get_user()
 
 CSRF_COOKIE_AGE = None
+CSRF_COOKIE_SECURE = False

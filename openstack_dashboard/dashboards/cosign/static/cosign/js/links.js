@@ -65,61 +65,27 @@ jsPlumb.ready(function() {
             }
         });
     });
-
-	/* Make elements draggable within the container bounds */
-	var nonPlumbing = jsPlumb.getInstance();
-    /*$('.box').draggable({
-            start: function(event, ui) {
-                ui.helper.bind("click.prevent",
-                    function(event) { event.preventDefault(); });
-            },
-            stop: function(event, ui) {
-                setTimeout(function(){
-                    ui.helper.unbind("click.prevent");
-                    console.log("unbind!")}, 30);
-            },containment: "parent"
-    })*/
-    $('.box').draggable({
-        start: function(event){
-            $(this).addClass('dragging');
-        },
-        stop: function(event){
-            console.log("dragged " + this.id);
-            setTimeout(function(){
-                $(this).removeClass('dragging');
-            }, 1);
-        }
-    });
-	jsPlumb.setContainer($(".topology-container"));
-	jsPlumb.draggable($(".box"), {
-	   containment:true
-	});
-	jsPlumb.addEndpoint("box-1", { 
-	  anchor:["Bottom", "Continuous"]
-	}, exampleEndpoint1);
-
-	jsPlumb.addEndpoint("box-2", { 
-	  anchor:"Bottom"
-	}, exampleEndpoint1);
-
-	jsPlumb.addEndpoint("box-3", { 
-	  anchor:"Bottom"
-	}, exampleEndpoint1);
-
-	jsPlumb.addEndpoint("box-4", { 
-	  anchor:"Bottom"
-	}, exampleEndpoint1);   
- 
 });
 
 function createEndpoint(id) {
     jsPlumb.addEndpoint(id, {
       anchor:"Bottom"
     }, exampleEndpoint1);
+    console.log("creating endpoint on " + id);
 };
 
 function makeDraggable(id) {
     jsPlumb.draggable($("#" + id), {
        containment:true
+    });
+    $('#' + id).draggable({
+        start: function(event){
+            $(this).addClass('dragging');
+        },
+        stop: function(event){
+            setTimeout(function(){
+                $(this).removeClass('dragging');
+            }, 100);
+        },containment: "parent"
     });
 }

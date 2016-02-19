@@ -8,10 +8,11 @@
 {% include "horizon/_messages.html" %}
 {% include 'cosign/topology/scripts.html' %}
 {% include 'cosign/topology/cards.html' %}
+{% csrf_token %}
 <!-- Buttons container -->
 {% include 'cosign/topology/buttons.html' %}
 <!-- Topology container-->
-<div class="topology-container focus">    
+<div class="topology-container initialized focus">    
    <!-- {#{% for vnode in virtual_nodes %}
         <div class="box" id="{{vnode.identifier}}">
             <span class="hide"> {{ vnode.label }} </span>
@@ -20,4 +21,9 @@
     {% include 'cosign/topology/balloon.html' %}
     </div>
 </div> 
+{% if state == "uninitialized" %}
+   <script> jsState = "{{state}}" </script>
+{% else %}
+   jsState = null;
+{% endif %}
 {% endblock %}

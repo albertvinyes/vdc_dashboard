@@ -15,9 +15,12 @@ from django.conf.urls import url
 
 from openstack_dashboard.dashboards.cosign.topology.views \
     import IndexView
+from openstack_dashboard.dashboards.cosign.topology \
+    import views
 
 
 urlpatterns = patterns(
     '',
     url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^create_vnode/$', views.create_vnode, name='create_vnode')
 )
