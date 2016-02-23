@@ -21,6 +21,15 @@
     {% include 'cosign/topology/balloon.html' %}
     </div>
 </div> 
+<div class="focus" id="vis">
+   <!-- {#{% for vnode in virtual_nodes %}
+        <div class="box" id="{{vnode.identifier}}">
+            <span class="hide"> {{ vnode.label }} </span>
+        </div>
+    {% endfor %}#}-->
+    {% include 'cosign/topology/balloon.html' %}
+    </div>
+</div>
 {% if state == "uninitialized" %}
    <script> jsState = "{{state}}" </script>
 {% else %}

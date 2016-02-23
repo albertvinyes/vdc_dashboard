@@ -1,8 +1,9 @@
 $(function () {
     /* CSRF TOKEN IS REQUIRED FOR AJAX REQUESTS*/
     $.ajaxSetup({
-        data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+        data: {csrfmiddlewaretoken: window.CSRF_TOKEN},
     });
+    console.log(window.CSRF_TOKEN);
     /* BUTTON METHODS */
     $('.toggleView').click(function() {
         $('.box span').toggleClass("hide");    
