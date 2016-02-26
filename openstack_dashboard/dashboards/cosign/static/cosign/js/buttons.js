@@ -3,9 +3,9 @@ $(function () {
     $.ajaxSetup({
         data: {csrfmiddlewaretoken: window.CSRF_TOKEN},
     });
-    console.log(window.CSRF_TOKEN);
     /* BUTTON METHODS */
     $('.toggleView').click(function() {
+        //TODO: Erase the button and this function
         $('.box span').toggleClass("hide");    
     });
     $('#create-vnode').click(function() {
@@ -25,10 +25,11 @@ $(function () {
                 else {
                     vnode = '<div class="box center" id='+label+' style="left:'+rLeft+'%"> <span class="hide">'+ label +'</span> </div>';
                 }
-                $('.topology-container').append(vnode);
-                createEndpoint(label);
-                makeDraggable(label);
-                makeClickable();
+                //$('.topology-container').append(vnode);
+                //createEndpoint(label);
+                //makeDraggable(label);
+                //makeClickable();
+                /* New vis js code */
                 $.ajax({
                      type:"POST",
                      crossDomain: true,
@@ -60,7 +61,9 @@ $(function () {
             },
             callback: function(result) {
                 if (result) {
-                    $('.topology-container').empty();
+                    //$('.topology-container').empty();
+                    network.destroy();
+                    network = new vis.Network(container, null, null);
                 }
             }
         });
