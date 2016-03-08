@@ -4,45 +4,23 @@ $(function () {
         data: {csrfmiddlewaretoken: window.CSRF_TOKEN},
     });
     /* BUTTON METHODS */
-    $('.toggleView').click(function() {
-        //TODO: Erase the button and this function
-        $('.box span').toggleClass("hide");    
-    });
-    $('#create-vnode').click(function() {
-        var label;
-        bootbox.prompt("Enter desired Label for the new <strong> Virtual Node </strong>", function(result) {
-            if (result === null) {
-
-            }
-            else {
-                label = result;
-                var activeLabels = ($('#toggle-button').hasClass("active"));
-                var vnode;
-                var rLeft = Math.random() * 15;
-                if (activeLabels) {
-                    vnode = '<div class="box center" id='+label+' style="left'+rLeft+'%"> <span class="">'+ label +'</span> </div>';
-                }
-                else {
-                    vnode = '<div class="box center" id='+label+' style="left:'+rLeft+'%"> <span class="hide">'+ label +'</span> </div>';
-                }
-                //$('.topology-container').append(vnode);
-                //createEndpoint(label);
-                //makeDraggable(label);
-                //makeClickable();
-                /* New vis js code */
-                $.ajax({
-                     type:"POST",
-                     crossDomain: true,
-                     xhrFields: {withCredentials: true},
-                     url:"http://84.88.32.99:8877/cosign/create_vnode/",
-                     data: {
-                            'label': label // from form
-                            },
-                     success: function(){
-                         console.log("GREAT SUCCES"); 
-                     }
-                });
-            }
+    $('#create-vdc').click(function() {
+        $(".initialized").fadeIn("slow");
+        $("#create-vdc").prop("disabled", true);
+        $("#clear-vdc").prop("disabled", false);
+        $("#submit-vdc").prop("disabled", false);
+        $('html,body').stop().animate({
+          scrollTop: 300
+        }, 1000);
+        /* Tell Horizon the VDC request has been initialized */
+        $.ajax({
+             type:"POST",
+             crossDomain: true,
+             xhrFields: {withCredentials: true},
+             url:"http://84.88.32.99:8877/cosign/create_vdc/",
+             success: function(){
+                 console.log("GREAT SUCCES");
+             }
         });
     });
     $('#clear-vdc').click(function() {
@@ -61,9 +39,26 @@ $(function () {
             },
             callback: function(result) {
                 if (result) {
-                    //$('.topology-container').empty();
-                    network.destroy();
-                    network = new vis.Network(container, null, null);
+                    /* Clear the DOM */
+                    var options = get_topology_options();
+                    nodes = new vis.DataSet();
+                    edges = new vis.DataSet();
+                    topology = {
+                        nodes: nodes,
+                        edges: edges
+                    };
+                    container = document.getElementById('network');
+                    network = new vis.Network(container, topology, options);
+                    /* Tell Horizon the VDC must be unstacked */
+                    $.ajax({
+                         type:"POST",
+                         crossDomain: true,
+                         xhrFields: {withCredentials: true},
+                         url:"http://84.88.32.99:8877/cosign/clear_vdc/",
+                         success: function(){
+                             console.log("GREAT SUCCES");
+                         }
+                    });
                 }
             }
         });

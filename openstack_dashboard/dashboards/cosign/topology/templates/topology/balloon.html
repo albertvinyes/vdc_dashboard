@@ -43,11 +43,11 @@
     <a href="#nothing" class="closeTopologyBalloon">x</a>
     <div class="contentBody">
         <table class="detailInfoTable">
-            <caption>Label</caption>
+            <caption id="balloon-virtual-node-label"></caption>
             <tbody>
                 <tr>
                     <th class="device">ID</th>
-                    <td>e1848032-a7a7-44b5-852c-dc42e2381552</td>
+                    <td id="balloon-virtual-node-id">e1848032-a7a7-44b5-852c-dc42e2381552</td>
                 </tr>
                 <tr>
                     <th class="device">STATUS</th>
@@ -60,11 +60,7 @@
         <div class="portTableHeader">
             <div class="title">Virtual Machines</div>
             <div class="action">
-                <a class="add-subnet btn btn-default btn-xs ajax-modal network" href="/project/instances/launch" 
-                   data-update-url="/project/instances/?action=launch&table=instances">
-                    <span class="fa fa-plus"></span>
-                    Add VMs
-                </a>
+                <button type="button" id="add_instances_button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addInstances">Add Instances</button>
             </div>
         </div>
         <table class="detailInfoTable" style="width:100%">

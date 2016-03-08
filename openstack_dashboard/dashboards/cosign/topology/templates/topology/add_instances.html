@@ -1,0 +1,94 @@
+<div class="modal fade" id="addInstances" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content ui-draggable">
+            <div class="modal-header ui-draggable-handle">
+                <a href="#" class="close" data-dismiss="modal">x</a>
+                <h3 class="modal-title">Launch Instance</h3>
+            </div>
+            <div class="modal-body">
+                <div class="tab-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4> Add instances to <span id="virtual_node_label"> </span> </h4>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group required">
+                                <label class="control-label  required" for="id_name">Instance Name</label>
+                                <div class=" ">
+                                    <input class="form-control" id="id_name" maxlength="255" name="name" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group required">
+                                <label class="control-label  required" for="id_flavor">Flavor</label>
+                                <span data-original-title="Size of image to launch." class="help-icon" data-toggle="tooltip" data-placement="top" title="">
+                                    <span class="fa fa-question-circle"></span>
+                                </span>
+                                <div class="form-group required">
+                                    <select class="form-control" id="id_flavor" name="flavor">
+                                    {% for key, value in flavors.items %}
+                                        <option value="{{key}}"> {{value.name}} </option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group required">
+                                <label class="control-label  required" for="id_count">Instance Count</label>
+                                <span class="help-icon" data-toggle="tooltip" data-placement="top" title="Number of instances to launch."><span class="fa fa-question-circle"></span></span>
+                                <div class=" ">
+                                    <input class="form-control" id="id_count" min="1" name="count" value="1" type="number">  
+                                </div>
+                            </div>  
+                            <div class="form-group  required">
+                                <label class="control-label">Image Name</label>
+                                <div class="form-group required">
+                                    <select class="form-control" id="id_image" name="image">
+                                    {% for image in images %}
+                                        <option value="{{image.id}}"> {{image.name}} </option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <p> </p>
+                            <p>Specify the details for launching an instance.</p>
+                            <h4>Flavor details</h4>
+                            <table class="flavor_table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="flavor_name">Name</td>
+                                        <td><span id="flavor_name">m1.nano</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="flavor_name">VCPUs</td>
+                                        <td><span id="flavor_vcpus">1</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="flavor_name">Root Disk</td>
+                                        <td><span id="flavor_disk">0</span> GB</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="flavor_name">Ephemeral Disk</td>
+                                        <td><span id="flavor_ephemeral">0</span> GB</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="flavor_name">Total Disk</td>
+                                        <td><span id="flavor_disk_total">0</span> GB</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="flavor_name">RAM</td>
+                                        <td><span id="flavor_ram">64</span> MB</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input class="btn btn-primary pull-right" value="Add" type="submit">
+                <a class="btn btn-default secondary cancel close">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>

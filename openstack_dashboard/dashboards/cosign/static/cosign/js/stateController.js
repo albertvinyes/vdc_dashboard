@@ -1,5 +1,4 @@
 $(function() { 
-    jsState = "uninitialized";
     if (jsState == "uninitialized") {                                 /* if init state just allow user to create a new VDC Instance */
         console.log("first state");
         $(".uninitialized").show();
@@ -13,14 +12,4 @@ $(function() {
         $(".initialized").show();
         $("#create-vdc").prop("disabled", true);
     }
-    $("#create-vdc").click(function() {
-        jsState = "initialized";
-        $(".initialized").fadeIn("slow");
-        $("#create-vdc").prop("disabled", true);
-        $("#clear-vdc").prop("disabled", false);
-        $("#submit-vdc").prop("disabled", false);
-        $('html,body').stop().animate({
-          scrollTop: 300
-        }, 1000);
-    });   
 });

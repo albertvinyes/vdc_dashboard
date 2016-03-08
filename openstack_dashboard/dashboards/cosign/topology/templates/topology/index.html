@@ -10,12 +10,15 @@
 {% include 'cosign/topology/cards.html' %}
 {% csrf_token %}
 <!-- Topology container-->
+{% include 'cosign/topology/add_instances.html' %}
 {% include 'cosign/topology/balloon.html' %}
 <div id="network" class="initialized">
 </div>
-{% if state == "uninitialized" %}
-   <script> jsState = "{{state}}" </script>
-{% else %}
-   jsState = null;
-{% endif %}
+<script>
+    jsState = "{{state}}"; 
+    flavors = "{{flavors_js}}".replace(/&quot;/g,'"'); 
+    flavors = JSON.parse(flavors);
+    images = "{{images_js}}".replace(/&quot;/g,'"');
+    images = JSON.parse(images); 
+</script>
 {% endblock %}

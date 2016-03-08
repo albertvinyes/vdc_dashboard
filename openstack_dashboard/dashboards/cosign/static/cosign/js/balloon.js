@@ -19,9 +19,8 @@ $(function() {
 });
 
 function showBalloon(id,posX,posY) {
-    var init = $('#network').position();
     $('#balloon').show();
     $('.popover-arrow').show();
-    $('#balloon').css({"left": posX + init.left + 25, "top": posY + init.top - 40});
-    $('.popover-arrow').css({"left": posX + 15 + init.left, "top": posY + init.top -20});
+    $('#balloon').css({"left": posX + 50, "top": posY + 250});
+    $('.popover-arrow').css({"left": posX + 40, "top": posY + 270});
 }
