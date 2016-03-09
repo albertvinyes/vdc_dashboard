@@ -7,7 +7,4 @@ $(function () {
         var h = document.body.clientHeight - 150 + 'px';
         $('#network').css('height', h);
     });
-    setInterval(function() {
-        $('.vis-connect').children('.vis-label').html("Add Link");
-    },100);
 });

@@ -1,3 +1,5 @@
+var request = null;
+var vnodes = null;
 var nodes = null;
 var edges = null;
 var network = null;
@@ -12,19 +14,20 @@ function destroy_topology() {
 }
 
 function save_topology() {
-    console.log("saving topology");
     localStorage.setItem('nodes', JSON.stringify(nodes));
     localStorage.setItem('edges', JSON.stringify(edges));
+    $.jStorage.set("request",request);
 }
 
 function load_topology() {
     destroy_topology();
-    console.log("loading topology");
     container = document.getElementById('network');    
     var stored_nodes = JSON.parse(localStorage.getItem('nodes'))["_data"];
     var stored_edges = JSON.parse(localStorage.getItem('edges'))["_data"];
+    request = $.jStorage.get("request");
     nodes = new vis.DataSet();
     edges = new vis.DataSet();
+    /* Add the retrieved data from local storage to the network */
     for (var key in stored_nodes) {
         nodes.add({
             id: stored_nodes[key].id,
@@ -50,6 +53,7 @@ function load_topology() {
         nodes: nodes,
         edges: edges
     };
+    /* Create a new network with the retrieved data */
     var options = get_topology_options();
     network = new vis.Network(container, topology, options);
     network.fit();
@@ -82,18 +86,24 @@ function get_topology_options() {
                         data.borderWidth = 0;
                         data.size = 40;
                         nodes.add(data);
+                        request.vnodes.push({
+                            id: data.id,
+                            label: data.label,
+                            vms: []
+                        });             
                         save_topology();
                     }
                 });
             },
             editNode: function (data, callback) {
                 network.enableEditMode();
-                bootbox.prompt("Enter the new desired Label for the <strong> Virtual Node </strong>", function(result) {
+                bootbox.prompt("Enter the new desired Label for the <b> Virtual Node </b>", function(result) {
                     if (result) {
                         label = result;
                         var node = network.getSelectedNodes()[0];
                         var id = nodes["_data"][node].id;
                         nodes.update({id: id, label: label});
+                        //TODO: update request node label
                         save_topology();
                     }
                 });
@@ -105,6 +115,12 @@ function get_topology_options() {
                         data.title = "Bw: " + result + " Mbps."
                         data.bandwith = result;
                         edges.add(data);
+                        request.vlinks.push({
+                            id: data.id,
+                            bandwith: data.result,
+                            to: data.to,
+                            from: data.from
+                        });
                         save_topology();
                     }
                 });
@@ -114,7 +130,8 @@ function get_topology_options() {
                         edges.add(data);
                     }
                 }
-            }
+            },
+            editEdge: false
         }
     };
     return topology_options;
@@ -124,21 +141,35 @@ $(function() {
     $.ajaxSetup({
         data: {csrfmiddlewaretoken: window.CSRF_TOKEN},
     });
-    // create a network
+    /* If there's no topology request create a new one */
     if (localStorage.nodes == null) {
         var options = get_topology_options();
         nodes = new vis.DataSet();
         edges = new vis.DataSet();
+        request = {
+            tenantID: "",
+            vnodes: [],
+            vlinks: [],
+        };
         topology = {
             nodes: nodes,
             edges: edges
         };
         container = document.getElementById('network');
         network = new vis.Network(container, topology, options);
-    } else {
+    } /* Otherwise, load it*/ 
+    else {
         load_topology();
     }
     network.on("click", function (params) {
+        /* Due to vis.js limitations this is the most eficient solution to change the vis-manipulation text */
+        var interval = setInterval(function() {
+            $('.vis-connect').children('.vis-label').html("Add Link");
+            if ($('.vis-connect').children('.vis-label').html() == "Add Link") {
+                clearInterval(interval);
+            }
+        },1);
+        /* If the user clicks a node display the information of that node */
         if (params.nodes.length == 0) return false;
         var id = params.nodes[0];
         var pos = network.getPositions(id)[id];

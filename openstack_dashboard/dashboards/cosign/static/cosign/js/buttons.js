@@ -19,7 +19,7 @@ $(function () {
              xhrFields: {withCredentials: true},
              url:"http://84.88.32.99:8877/cosign/create_vdc/",
              success: function(){
-                 console.log("GREAT SUCCES");
+                 console.log("Server response from create_vdc");
              }
         });
     });
@@ -43,12 +43,17 @@ $(function () {
                     var options = get_topology_options();
                     nodes = new vis.DataSet();
                     edges = new vis.DataSet();
+                    virtual_nodes = new vis.DataSet();
+                    virtual_links = new vis.DataSet();
                     topology = {
                         nodes: nodes,
                         edges: edges
                     };
                     container = document.getElementById('network');
                     network = new vis.Network(container, topology, options);
+                    localStorage.clear();
+                    request = null;
+                    $.jStorage.set("request", null);
                     /* Tell Horizon the VDC must be unstacked */
                     $.ajax({
                          type:"POST",
@@ -56,7 +61,7 @@ $(function () {
                          xhrFields: {withCredentials: true},
                          url:"http://84.88.32.99:8877/cosign/clear_vdc/",
                          success: function(){
-                             console.log("GREAT SUCCES");
+                             console.log("Server response from clear_vdc");
                          }
                     });
                 }
