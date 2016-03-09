@@ -87,7 +87,16 @@ function get_topology_options() {
                 });
             },
             editNode: function (data, callback) {
-
+                network.enableEditMode();
+                bootbox.prompt("Enter the new desired Label for the <strong> Virtual Node </strong>", function(result) {
+                    if (result) {
+                        label = result;
+                        var node = network.getSelectedNodes()[0];
+                        var id = nodes["_data"][node].id;
+                        nodes.update({id: id, label: label});
+                        save_topology();
+                    }
+                });
             },
             addEdge: function (data, callback) {
                 bootbox.prompt("Enter the desired Bandwith in Mbps for the <b> Virtual Link </b>", function(result) {
