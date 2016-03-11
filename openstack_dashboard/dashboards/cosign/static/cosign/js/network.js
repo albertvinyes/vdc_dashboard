@@ -117,7 +117,7 @@ function get_topology_options() {
                         edges.add(data);
                         request.vlinks.push({
                             id: data.id,
-                            bandwith: data.result,
+                            bandwith: result,
                             to: data.to,
                             from: data.from
                         });
@@ -135,6 +135,27 @@ function get_topology_options() {
         }
     };
     return topology_options;
+}
+
+function info_listener(params) {
+    /* Due to vis.js limitations this is the most eficient solution to change the vis-manipulation text */
+    var interval = setInterval(function() {
+        $('.vis-connect').children('.vis-label').html("Add Link");
+        if ($('.vis-connect').children('.vis-label').html() == "Add Link") {
+            clearInterval(interval);
+        }
+    },1);
+    /* If the user clicks a node display the information of that node */
+    if (params.nodes.length == 0) return false;
+    var id = params.nodes[0];
+    var pos = network.getPositions(id)[id];
+    pos = network.canvasToDOM(pos);
+    showBalloon(id,pos.x,pos.y);
+    var node = network.getSelectedNodes()[0];
+    var label = nodes["_data"][node].label;
+    var id = nodes["_data"][node].id;
+    $("#balloon-virtual-node-label").html(label);
+    $("#balloon-virtual-node-id").html(id);
 }
 
 $(function() {
@@ -157,28 +178,12 @@ $(function() {
         };
         container = document.getElementById('network');
         network = new vis.Network(container, topology, options);
+        network.fit();
     } /* Otherwise, load it*/ 
     else {
         load_topology();
     }
     network.on("click", function (params) {
-        /* Due to vis.js limitations this is the most eficient solution to change the vis-manipulation text */
-        var interval = setInterval(function() {
-            $('.vis-connect').children('.vis-label').html("Add Link");
-            if ($('.vis-connect').children('.vis-label').html() == "Add Link") {
-                clearInterval(interval);
-            }
-        },1);
-        /* If the user clicks a node display the information of that node */
-        if (params.nodes.length == 0) return false;
-        var id = params.nodes[0];
-        var pos = network.getPositions(id)[id];
-        pos = network.canvasToDOM(pos);
-        showBalloon(id,pos.x,pos.y);
-        var node = network.getSelectedNodes()[0];
-        var label = nodes["_data"][node].label;
-        var id = nodes["_data"][node].id;
-        $("#balloon-virtual-node-label").html(label);
-        $("#balloon-virtual-node-id").html(id);
+        info_listener(params);
     });
 });

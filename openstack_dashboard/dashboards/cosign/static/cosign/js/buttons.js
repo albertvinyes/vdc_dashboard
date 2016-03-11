@@ -51,8 +51,15 @@ $(function () {
                     };
                     container = document.getElementById('network');
                     network = new vis.Network(container, topology, options);
+                    network.on("click", function (params) {
+                        info_listener(params);
+                    });
                     localStorage.clear();
-                    request = null;
+                    request = {
+                        tenantID: "",
+                        vnodes: [],
+                        vlinks: [],
+                    };
                     $.jStorage.set("request", null);
                     /* Tell Horizon the VDC must be unstacked */
                     $.ajax({

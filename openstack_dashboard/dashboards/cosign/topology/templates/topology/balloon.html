@@ -1,44 +1,3 @@
-<!--
-<div id="balloon" class="topologyBalloon" title="Balloon Title">
-    <a href="#nothing" class="closeTopologyBalloon">x</a>
-    <div class="contentBody">
-        <table class="detailInfoTable">
-             <caption>Label</caption>
-             <tbody>
-                   <tr>
-                        <th class="device">ID</th>
-                        <td>e1848032-a7a7-44b5-852c-dc42e2381552</td>
-                   </tr>
-                  <tr>
-                        <th class="device">STATUS</th>
-                        <td>
-                            <span class="active">ACTIVE</span>
-                        </td>
-                  </tr>
-             </tbody>
-        </table>
-        <div class="portTableHeader">
-                <table class="detailInfoTable">
-                     <caption>Label</caption>
-                     <tbody>
-                         <tr>
-                              <th class="device">ID</th>
-                              <td>e1848032-a7a7-44b5-852c-dc42e2381552</td>
-                         </tr>
-                         <tr>
-                              <th class="device">STATUS</th>
-                              <td>
-                                  <span class="active">ACTIVE</span>
-                              </td>
-                         </tr>
-                     </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="popover-arrow"> </div>
-</div>
--->
 <div id="balloon" class="topologyBalloon" title="Balloon Title">
     <a href="#nothing" class="closeTopologyBalloon">x</a>
     <div class="contentBody">
@@ -63,7 +22,7 @@
                 <button type="button" id="add_instances_button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addInstances">Add Instances</button>
             </div>
         </div>
-        <table class="detailInfoTable" style="width:100%">
+        <table id="balloon-instances" class="detailInfoTable" style="width:100%">
             <caption></caption>
             <tbody>
                 <tr>
@@ -93,7 +52,7 @@
         <div class="portTableHeader">
             <div class="title">Virtual Links</div>
         </div>
-        <table class="detailInfoTable" style="width:100%">
+        <table id="ballon-links" class="detailInfoTable" style="width:100%">
             <caption></caption>
             <tbody>
                 <tr>

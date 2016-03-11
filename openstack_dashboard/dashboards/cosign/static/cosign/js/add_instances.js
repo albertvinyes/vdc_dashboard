@@ -1,3 +1,5 @@
+var nodeID;
+
 $(function() {
     $('#id_flavor').change(function() {
         var val = $('#id_flavor').val();
@@ -8,9 +10,42 @@ $(function() {
         $('#flavor_ram').html(flavors[val].memory);
     });
     $('#add_instances_button').click(function() {
-        var node = network.getSelectedNodes()[0];
-        var label = nodes["_data"][node].label;
+        nodeID = network.getSelectedNodes()[0];
+        var label = nodes["_data"][nodeID].label;
         $('#virtual_node_label').html(label);
-        console.log("hola");
+    });
+    $('#add_instances_vnode').click(function() {
+        /* Retrieve the info from the form */
+        var name = $('#id_name').val();
+        var flavor = $('#id_flavor').val();
+        var instances = $('#id_count').val();
+        var image = $('#id_image').val();
+        var obj = {
+            label:  name,
+            flavorID: flavor,
+            imageID: image
+        };
+        /* Add it to the JSON request */
+        var len = request.vnodes.length;
+        for (i = 0; i < len; i++) {
+            if (request.vnodes[i].id == nodeID) {
+                console.log("found node to add instances");
+                for (var k = 0; k < instances; k++) {
+                    var nameCount = name;
+                    if (instances > 1) {
+                        nameCount = name + "-" + Number(k+1);
+                    }
+                    var obj = {
+                        label:  nameCount,
+                        flavorID: flavor,
+                        imageID: image
+                    };
+                    request.vnodes[i].vms.push(obj);
+                    console.log("adding vms");
+                    save_topology();
+                }
+            }
+        }
+        $('#addInstances').modal('hide');
     });
 });
