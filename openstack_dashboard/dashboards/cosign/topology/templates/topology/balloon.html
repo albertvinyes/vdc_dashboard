@@ -24,19 +24,9 @@
         </div>
         <table id="balloon-instances" class="detailInfoTable" style="width:100%">
             <caption></caption>
-            <tbody>
-                <tr>
-                    <th>
-                        <span title="c8d63424-4ea4-4a46-9df7-7b36f637e32e">
-                            <a href="/project/networks/subnets/c8d63424-4ea4-4a46-9df7-7b36f637e32e/detail">d61075e7-7140-4eaa-b724-c91945eae6d6</a>
-                        </span>
-                    </th>
-                    <td>nano-1</td>
-                    <td class="delete">
-                        <button class="delete-port btn btn-danger btn-xs" data-router-id="" data-network-id="d61075e7-7140-4eaa-b724-c91945eae6d6" data-port-id="c8d63424-4ea4-4a46-9df7-7b36f637e32e">Remove VM</button>
-                    </td>
-                </tr>
-                <tr>
+            <tbody id="balloon-instances-list">
+                <tr> <th> LABEL </th> <th> FLAVOR </th> <td></td> </tr>               
+                <!--<tr>
                     <th>
                         <span title="6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de">
                             <a href="/project/networks/subnets/6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de/detail">d61075e7-7140-4eaa-b724-c91945eae6d6</a>
@@ -46,7 +36,7 @@
                     <td class="delete">
                         <button class="delete-port btn btn-danger btn-xs" data-router-id="" data-network-id="d61075e7-7140-4eaa-b724-c91945eae6d6" data-port-id="6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de">Remove VM</button>
                     </td>
-                </tr>
+                </tr>-->
             </tbody>
         </table>
         <div class="portTableHeader">
@@ -54,29 +44,8 @@
         </div>
         <table id="ballon-links" class="detailInfoTable" style="width:100%">
             <caption></caption>
-            <tbody>
-                <tr>
-                    <th>
-                        <span title="c8d63424-4ea4-4a46-9df7-7b36f637e32e">
-                            <a href="/project/networks/subnets/c8d63424-4ea4-4a46-9df7-7b36f637e32e/detail">d61075e7-7140-4eaa-b724-c91945eae6d6</a>
-                        </span>
-                    </th>
-                    <td>v-link-1</td>
-                    <td class="delete">
-                        <button class="delete-port btn btn-danger btn-xs" data-router-id="" data-network-id="d61075e7-7140-4eaa-b724-c91945eae6d6" data-port-id="c8d63424-4ea4-4a46-9df7-7b36f637e32e">Remove Link</button>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <span title="6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de">
-                            <a href="/project/networks/subnets/6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de/detail">d61075e7-7140-4eaa-b724-c91945eae6d6</a>
-                        </span>
-                    </th>
-                    <td>v-link-2</td>
-                    <td class="delete">
-                        <button class="delete-port btn btn-danger btn-xs" data-router-id="" data-network-id="d61075e7-7140-4eaa-b724-c91945eae6d6" data-port-id="6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de">Remove Link</button>
-                    </td>
-                </tr>
+            <tbody id="balloon-links-list">
+                <tr> <th> DESTINATION </th> <th> BANDWITH </th> <td></td> </tr> 
             </tbody>
         </table>
     </div>

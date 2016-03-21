@@ -1,7 +1,10 @@
 /* Dialogs for the VDC Topology */
+var a;
+var d;
+
 $(function() {
-    var d =  $('#balloon');
-    var a = $('.popover-arrow');
+    d =  $('#balloon');
+    a = $('.popover-arrow');
     $('.closeTopologyBalloon').click(function() {
         d.hide();
         a.hide();
@@ -11,6 +14,7 @@ $(function() {
             d.hide();
             a.hide();
         }
+        e.preventDefault(); 
     });
     $('.closeTopologyBalloon').click(function() {
         d.hide();

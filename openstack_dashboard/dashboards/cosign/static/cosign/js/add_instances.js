@@ -1,8 +1,10 @@
 var nodeID;
+var flavor_name;
 
 $(function() {
     $('#id_flavor').change(function() {
         var val = $('#id_flavor').val();
+        console.log("flavor name: " + flavor_name);
         $('#flavor_name').html(flavors[val].name);
         $('#flavor_vcpus').html(flavors[val].vcpu);
         $('#flavor_disk').html(flavors[val].disk);
@@ -20,11 +22,7 @@ $(function() {
         var flavor = $('#id_flavor').val();
         var instances = $('#id_count').val();
         var image = $('#id_image').val();
-        var obj = {
-            label:  name,
-            flavorID: flavor,
-            imageID: image
-        };
+        flavor_name = $('option:selected', '#id_flavor').attr('name');
         /* Add it to the JSON request */
         var len = request.vnodes.length;
         for (i = 0; i < len; i++) {
@@ -36,12 +34,14 @@ $(function() {
                         nameCount = name + "-" + Number(k+1);
                     }
                     var obj = {
+                        id: flavor_name+"-"+image,
                         label:  nameCount,
+                        flavorName: flavor_name,
                         flavorID: flavor,
                         imageID: image
                     };
                     request.vnodes[i].vms.push(obj);
-                    console.log("adding vms");
+                    console.log(flavor_name);
                     save_topology();
                 }
             }

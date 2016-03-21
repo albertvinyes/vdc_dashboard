@@ -26,7 +26,7 @@
                                 <div class="form-group required">
                                     <select class="form-control" id="id_flavor" name="flavor">
                                     {% for key, value in flavors.items %}
-                                        <option value="{{key}}"> {{value.name}} </option>
+                                        <option value="{{key}}" name="{{value.name}}"> {{value.name}} </option>
                                     {% endfor %}
                                     </select>
                                 </div>

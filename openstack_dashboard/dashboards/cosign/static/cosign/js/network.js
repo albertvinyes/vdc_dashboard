@@ -4,6 +4,8 @@ var nodes = null;
 var edges = null;
 var network = null;
 var topology = null;
+var vnode_index = null;
+var vlink_id = null;
 var container;
 
 function destroy_topology() {
@@ -11,6 +13,26 @@ function destroy_topology() {
         network.destroy();
         network = null;
     }
+}
+
+function remove_instance_vnode(index) {
+    request.vnodes[vnode_index].vms.splice(index,1);
+    a.hide();
+    d.hide();
+    save_topology();
+}
+
+function remove_link(index) {
+    request.vlinks.splice(index,1);
+    a.hide();
+    d.hide();
+    edges.remove(edges.getIds(index)[index]);
+    save_topology();
+}
+
+function remove_vnode() {
+    request.vnodes.splice(vnodes_index,1);
+    //TODO: Remove from DataSet
 }
 
 function save_topology() {
@@ -131,10 +153,18 @@ function get_topology_options() {
                     }
                 }
             },
-            editEdge: false
+            editEdge: false,
+            deleteNode: false
         }
     };
     return topology_options;
+}
+
+function get_index_of(id) {
+    var i;
+    for (i = 0; i < request.vnodes.length; i++) {
+        if(request.vnodes[i].id == id) return i;
+    }
 }
 
 function info_listener(params) {
@@ -151,11 +181,30 @@ function info_listener(params) {
     var pos = network.getPositions(id)[id];
     pos = network.canvasToDOM(pos);
     showBalloon(id,pos.x,pos.y);
+    /* Populate with data */
     var node = network.getSelectedNodes()[0];
     var label = nodes["_data"][node].label;
     var id = nodes["_data"][node].id;
     $("#balloon-virtual-node-label").html(label);
     $("#balloon-virtual-node-id").html(id);
+    vnode_index =  get_index_of(id);
+    $('#balloon-instances-list tr:gt(0)').remove();
+    for (var i = 0; i < request.vnodes[vnode_index].vms.length; i++) {
+        var vm_label = request.vnodes[vnode_index].vms[i].label;
+        var vm_flavor = request.vnodes[vnode_index].vms[i].flavorName;
+        var row = "<tr><td><span>"+vm_label+"</span></td><td>"+vm_flavor+"</td><td class='delete'><button class='delete-port btn btn-danger btn-xs' onclick='remove_instance_vnode("+i+")'>Remove</button></td></tr>"
+        $('#balloon-instances-list').append(row);
+    }
+    $('#balloon-links-list tr:gt(0)').remove();
+    for (var k = 0; k < request.vlinks.length; k++) {
+        if (request.vlinks[k].to == id || request.vlinks[k].from == id) {
+            var link_bw = request.vlinks[k].bandwith;
+            if (request.vlinks[k].to == id) var link_to = request.vlinks[k].from;
+            else var link_to = request.vlinks[k].to;
+            var row = "<tr><th><span style='color:black;font-weight:normal'>"+link_to+"</span></th><td>"+link_bw+" Mbps</td><td class='delete'><button id='remove-link-vnode' class='delete-port btn btn-danger btn-xs' onclick='remove_link("+k+")'>Remove</button></td></tr>";
+            $('#balloon-links-list').append(row);   
+        }
+    }
 }
 
 $(function() {

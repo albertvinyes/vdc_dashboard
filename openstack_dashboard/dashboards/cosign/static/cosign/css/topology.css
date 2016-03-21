@@ -19,6 +19,28 @@ body, html {
 }
 .vis-button:hover {
     box-shadow:none !important;
+    text-decoration: underline;
+}
+.vis-none:hover {
+    text-decoration: none;
+}
+.vis-edit {
+    background-image: url("../img/editIcon.png") !important;
+}
+.vis-add {
+    background-image: url("../img/addNodeIcon.png") !important;
+}
+.vis-connect {
+    background-image: url("../img/connectIcon.png") !important;
+}
+.vis-delete {
+    background-image: url("../img/deleteIcon.png") !important;
+}
+.vis-back {
+    background-image: url("../img/backIcon.png") !important;
+}
+.vis-close {
+    background-image: url("../img/cross.png") !important;
 }
 #network {
     width: 100%;
