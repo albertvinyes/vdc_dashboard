@@ -18,11 +18,11 @@ $(function() {
     });
     $('#add_instances_vnode').click(function() {
         /* Retrieve the info from the form */
-        var name = $('#id_name').val();
-        var flavor = $('#id_flavor').val();
-        var instances = $('#id_count').val();
-        var image = $('#id_image').val();
-        flavor_name = $('option:selected', '#id_flavor').attr('name');
+        var name = removeTags($('#id_name').val());
+        var flavor = removeTags($('#id_flavor').val());
+        var instances = removeTags($('#id_count').val());
+        var image = removeTags($('#id_image').val());
+        flavor_name = removeTags($('option:selected', '#id_flavor').attr('name'));
         /* Add it to the JSON request */
         var len = request.vnodes.length;
         for (i = 0; i < len; i++) {

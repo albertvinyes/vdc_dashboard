@@ -15,26 +15,6 @@ function destroy_topology() {
     }
 }
 
-function remove_instance_vnode(index) {
-    request.vnodes[vnode_index].vms.splice(index,1);
-    a.hide();
-    d.hide();
-    save_topology();
-}
-
-function remove_link(index) {
-    request.vlinks.splice(index,1);
-    a.hide();
-    d.hide();
-    edges.remove(edges.getIds(index)[index]);
-    save_topology();
-}
-
-function remove_vnode() {
-    request.vnodes.splice(vnodes_index,1);
-    //TODO: Remove from DataSet
-}
-
 function save_topology() {
     localStorage.setItem('nodes', JSON.stringify(nodes));
     localStorage.setItem('edges', JSON.stringify(edges));
@@ -101,8 +81,7 @@ function get_topology_options() {
             addNode: function (data, callback) {
                 bootbox.prompt("Enter desired Label for the new <strong> Virtual Node </strong>", function(result) {
                     if (result) {
-                        label = result;
-                        data.label = result;
+                        data.label = removeTags(result);
                         data.shape = "image";
                         data.image = STATIC_URL + "cosign/img/stack-gray.svg";
                         data.borderWidth = 0;
@@ -121,11 +100,12 @@ function get_topology_options() {
                 network.enableEditMode();
                 bootbox.prompt("Enter the new desired Label for the <b> Virtual Node </b>", function(result) {
                     if (result) {
-                        label = result;
+                        result = removeTags(result);
                         var node = network.getSelectedNodes()[0];
                         var id = nodes["_data"][node].id;
-                        nodes.update({id: id, label: label});
+                        nodes.update({id: id, label: result});
                         //TODO: update request node label
+                        request.vnodes[node].label = result;
                         save_topology();
                     }
                 });
@@ -134,6 +114,7 @@ function get_topology_options() {
                 bootbox.prompt("Enter the desired Bandwith in Mbps for the <b> Virtual Link </b>", function(result) {
                     if(result) {
                         // TODO: Bandwith must be a number
+                        result = removeTags(result);
                         data.title = "Bw: " + result + " Mbps."
                         data.bandwith = result;
                         edges.add(data);
@@ -167,6 +148,13 @@ function get_index_of(id) {
     }
 }
 
+function show_info(id,posX,posY) {
+    $('#balloon').show();
+    $('.popover-arrow').show();
+    $('#balloon').css({"left": posX + 50, "top": posY + 250});
+    $('.popover-arrow').css({"left": posX + 40, "top": posY + 270});
+}
+
 function info_listener(params) {
     /* Due to vis.js limitations this is the most eficient solution to change the vis-manipulation text */
     var interval = setInterval(function() {
@@ -180,7 +168,7 @@ function info_listener(params) {
     var id = params.nodes[0];
     var pos = network.getPositions(id)[id];
     pos = network.canvasToDOM(pos);
-    showBalloon(id,pos.x,pos.y);
+    show_info(id,pos.x,pos.y);
     /* Populate with data */
     var node = network.getSelectedNodes()[0];
     var label = nodes["_data"][node].label;

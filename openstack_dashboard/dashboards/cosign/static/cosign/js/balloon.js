@@ -19,12 +19,31 @@ $(function() {
     $('.closeTopologyBalloon').click(function() {
         d.hide();
         a.hide();
-    })
+    });
+    $('#delete-virtual-node').click(function() {
+        remove_vnode();
+    });
 });
 
-function showBalloon(id,posX,posY) {
-    $('#balloon').show();
-    $('.popover-arrow').show();
-    $('#balloon').css({"left": posX + 50, "top": posY + 250});
-    $('.popover-arrow').css({"left": posX + 40, "top": posY + 270});
+function remove_instance_vnode(index) {
+    request.vnodes[vnode_index].vms.splice(index,1);
+    a.hide();
+    d.hide();
+    save_topology();
+}
+
+function remove_link(index) {
+    a.hide();
+    d.hide();
+    request.vlinks.splice(index,1);
+    edges.remove(edges.getIds(index)[index]);
+    save_topology();
+}
+
+function remove_vnode() {
+    a.hide();
+    d.hide();
+    request.vnodes.splice(vnode_index,1);
+    nodes.remove(nodes.getIds(vnode_index)[vnode_index]);
+    save_topology();
 }

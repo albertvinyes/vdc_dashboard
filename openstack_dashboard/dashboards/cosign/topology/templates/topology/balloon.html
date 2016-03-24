@@ -17,7 +17,7 @@
             </tbody>
         </table>
         <div class="portTableHeader">
-            <div class="title">Virtual Machines</div>
+            <div class="title">Instances</div>
             <div class="action">
                 <button type="button" id="add_instances_button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addInstances">Add Instances</button>
             </div>
@@ -26,21 +26,10 @@
             <caption></caption>
             <tbody id="balloon-instances-list">
                 <tr> <th> LABEL </th> <th> FLAVOR </th> <td></td> </tr>               
-                <!--<tr>
-                    <th>
-                        <span title="6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de">
-                            <a href="/project/networks/subnets/6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de/detail">d61075e7-7140-4eaa-b724-c91945eae6d6</a>
-                        </span>
-                    </th>
-                    <td>nano-2</td>
-                    <td class="delete">
-                        <button class="delete-port btn btn-danger btn-xs" data-router-id="" data-network-id="d61075e7-7140-4eaa-b724-c91945eae6d6" data-port-id="6941dc1a-4ec5-4034-9ef7-ee31c0b2b9de">Remove VM</button>
-                    </td>
-                </tr>-->
             </tbody>
         </table>
         <div class="portTableHeader">
-            <div class="title">Virtual Links</div>
+            <div class="title">Links</div>
         </div>
         <table id="ballon-links" class="detailInfoTable" style="width:100%">
             <caption></caption>
@@ -51,11 +40,11 @@
     </div>
     <div class="footer">
         <div class="footerInner">
-            <div class="cell link">
+            <!--<div class="cell link">
                 <a href="/project/networks/d61075e7-7140-4eaa-b724-c91945eae6d6/detail">» View Details</a>
-            </div>
+            </div>-->
             <div class="cell delete">
-                <button class="delete-device btn btn-danger btn-xs network" data-type="network" data-device-id="d61075e7-7140-4eaa-b724-c91945eae6d6">Delete Virtual Node</button>
+                <button id="delete-virtual-node" class="delete-device btn btn-danger btn-xs network" data-type="network">Delete Virtual Node</button>
             </div>
         </div>
     </div>
