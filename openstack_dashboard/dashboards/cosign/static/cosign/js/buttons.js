@@ -56,7 +56,7 @@ $(function () {
                     });
                     localStorage.clear();
                     request = {
-                        tenantID: "",
+                        tenantID: tenand_id,
                         vnodes: [],
                         vlinks: [],
                     };
@@ -71,6 +71,7 @@ $(function () {
                              console.log("Server response from clear_vdc");
                          }
                     });
+                    $('#request').empty();
                 }
             }
         });

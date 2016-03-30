@@ -43,7 +43,30 @@ function remove_link(index) {
 function remove_vnode() {
     a.hide();
     d.hide();
-    request.vnodes.splice(vnode_index,1);
-    nodes.remove(nodes.getIds(vnode_index)[vnode_index]);
+    //remove node from nodes object
+    var node_id = network.getSelectedNodes();
+    nodes.remove(node_id);
+    //remove node from request
+    for (var t = 0; t < request.vnodes.length; t++) {
+        if (request.vnodes[t].id == node_id) {
+            request.vnodes.splice(t,1);
+            console.log("removing vnode from request");
+        }
+    }
+    //remove edges from edges object and retrieve removed ids
+    var edges_ids = network.getSelectedEdges();
+    var removed_edges = edges.remove(edges_ids);
+    console.log(removed_edges);
+    for (var k = 0; k < request.vlinks.length; k++) {
+        for (var i = 0; i < removed_edges.length; i++) {
+            if (request.vlinks[k]["id"] == removed_edges[i]) {
+                console.log(k);
+                request.vlinks.splice(k,1);
+                console.log("removed");
+                k--;
+                break;
+            }
+        }
+    }
     save_topology();
 }

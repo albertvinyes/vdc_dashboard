@@ -12,10 +12,16 @@
 <!-- Topology container-->
 {% include 'cosign/topology/add_instances.html' %}
 {% include 'cosign/topology/balloon.html' %}
-<div id="network" class="initialized">
+<div id="network" class="initialized col-xs-8 no-padding">
+</div>
+<div class="col-xs-4">
+    <pre id="request">
+
+    </pre>
 </div>
 <script>
-    jsState = "{{state}}"; 
+    jsState = "{{state}}";
+    tenand_id = "{{tenant_id}}"; 
     flavors = "{{flavors_js}}".replace(/&quot;/g,'"'); 
     flavors = JSON.parse(flavors);
     images = "{{images_js}}".replace(/&quot;/g,'"');

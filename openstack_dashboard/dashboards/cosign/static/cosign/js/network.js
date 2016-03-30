@@ -19,6 +19,7 @@ function save_topology() {
     localStorage.setItem('nodes', JSON.stringify(nodes));
     localStorage.setItem('edges', JSON.stringify(edges));
     $.jStorage.set("request",request);
+    show_request(request);
 }
 
 function load_topology() {
@@ -59,6 +60,7 @@ function load_topology() {
     var options = get_topology_options();
     network = new vis.Network(container, topology, options);
     network.fit();
+    show_request(request);
 }
 
 function get_topology_options() {
@@ -101,8 +103,7 @@ function get_topology_options() {
                 bootbox.prompt("Enter the new desired Label for the <b> Virtual Node </b>", function(result) {
                     if (result) {
                         result = removeTags(result);
-                        var node = network.getSelectedNodes()[0];
-                        var id = nodes["_data"][node].id;
+                        var id = network.getSelectedNodes()[0];
                         nodes.update({id: id, label: result});
                         //TODO: update request node label
                         request.vnodes[node].label = result;
@@ -205,7 +206,7 @@ $(function() {
         nodes = new vis.DataSet();
         edges = new vis.DataSet();
         request = {
-            tenantID: "",
+            tenantID: tenand_id,
             vnodes: [],
             vlinks: [],
         };
@@ -223,4 +224,5 @@ $(function() {
     network.on("click", function (params) {
         info_listener(params);
     });
+    show_request(request);
 });

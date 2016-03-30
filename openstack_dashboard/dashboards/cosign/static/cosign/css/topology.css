@@ -2,6 +2,10 @@
 body, html {
     height:100%;
 }
+.no-padding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
 .initialized {
     display:none;
 }
@@ -43,12 +47,12 @@ body, html {
     background-image: url("../img/cross.png") !important;
 }
 #network {
-    width: 100%;
     height: auto;
     margin-bottom: 10px;
     background: #FFF none repeat scroll 0% 0%;
     border: 1px solid #d6d9d8;
     position:relative;
+    padding-right: 0 !important;
 }
 #network-popUp {
     display:none;
@@ -97,8 +101,28 @@ body, html {
     to {box-shadow: inset 0px 0px 5px 1px rgb(79,79,79);}
 }
 
-.focus {/*
-    animation: focus 1s ease forwards; 
-    -webkit-animation: focus 1s ease forwards;*/
+.focus {
     box-shadow: inset 0px 0px 5px 1px rgb(79,79,79);
+}
+pre {
+    font-size: 10.5px;
+    overflow-y: auto;
+    padding-right: 0 !important;
+    position: relative;
+    left: 15px;
+}
+.string { 
+    color: green; 
+}
+.number { 
+    color: darkorange; 
+}
+.boolean { 
+    color: blue; 
+}
+.null {
+    color: magenta; 
+}
+.key { 
+    color: red; 
 }
