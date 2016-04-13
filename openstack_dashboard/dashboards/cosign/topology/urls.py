@@ -22,6 +22,7 @@ from openstack_dashboard.dashboards.cosign.topology \
 urlpatterns = patterns(
     '',
     url(r'^$', IndexView.as_view(), name='index'),
-    url(r'^create_vdc/$', views.create_vdc, name='create_vdc'),
-    url(r'^clear_vdc/$', views.clear_vdc, name='clear_vdc'),
+    url(r'^get_vdc/$', views.get_vdc, name='get_vdc'),
+    url(r'^delete_vdc/$', views.delete_vdc, name='delete_vdc'),
+    url(r'^submit_vdc/$', views.submit_vdc, name='submit_vdc')
 )

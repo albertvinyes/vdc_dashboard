@@ -17,7 +17,7 @@ $(function () {
              type:"POST",
              crossDomain: true,
              xhrFields: {withCredentials: true},
-             url:"http://84.88.32.99:8877/cosign/create_vdc/",
+             url:"http://84.88.32.99:8877/cosign/get_vdc/",
              success: function(){
                  console.log("Server response from create_vdc");
              }
@@ -25,7 +25,7 @@ $(function () {
     });
     $('#clear-vdc').click(function() {
         bootbox.confirm({
-            title: 'Warning!',
+            title: 'Warning',
             message: 'Are you sure you want to clear the request?',
             buttons: {
                 'cancel': {
@@ -56,7 +56,7 @@ $(function () {
                     });
                     localStorage.clear();
                     request = {
-                        tenantID: tenand_id,
+                        tenantID: tenant_id,
                         vnodes: [],
                         vlinks: [],
                     };
@@ -66,9 +66,9 @@ $(function () {
                          type:"POST",
                          crossDomain: true,
                          xhrFields: {withCredentials: true},
-                         url:"http://84.88.32.99:8877/cosign/clear_vdc/",
+                         url:"http://84.88.32.99:8877/cosign/delete_vdc/",
                          success: function(){
-                             console.log("Server response from clear_vdc");
+                             console.log("Server succes response from delete_vdc");
                          }
                     });
                     $('#request').empty();
@@ -76,4 +76,49 @@ $(function () {
             }
         });
     });
+    $('#submit-vdc').click(function() {
+        bootbox.confirm({
+            title: 'Attention',
+            message: 'Do you want to deploy the request?',
+            buttons: {
+                'cancel': {
+                    label: 'Cancel',
+                    className: 'btn-default pull-left'
+                },
+                'confirm': {
+                    label: 'Deploy',
+                    className: 'btn-primary pull-right'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    /* TODO: Tell the algorithms to deploy the request */
+                    var url = "http://84.88.32.99:8877/cosign/submit_vdc/";
+                    $.ajax({
+                        type:"POST",
+                        crossDomain: true,
+                        xhrFields: {withCredentials: true},
+                        url: url,
+                        data: {csrfmiddlewaretoken: window.CSRF_TOKEN, json: JSON.stringify(request)},
+                        dataType: 'json',
+                        beforeSend: function() {
+                            $('#submit-vdc').toggleClass('active');
+                        },
+                        complete: function() {
+                            $('#submit-vdc').toggleClass('active');
+                        },
+                        success: function(response) {
+                            console.log("Succes response for submit: " + response);
+                            clear_local_storage();                           
+                        },
+                        error: function(response) {
+                            console.log("Error response for submit: " + JSON.stringify(response));
+                            $('#submit-vdc').toggleClass('active');
+                        }
+                     });
+                }
+            }
+        });
+    });
 });
+

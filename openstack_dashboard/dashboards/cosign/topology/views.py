@@ -17,9 +17,11 @@ from django.template import *
 from django.http import HttpResponse
 from keystoneclient.v3 import client
 from horizon import exceptions
+import requests
 import uuid
 import json
 
+tenant_id = "null"
 
 class VirtualNode(object):
     def __init__(self, label, top, left):
@@ -31,9 +33,13 @@ class VirtualNode(object):
 class IndexView(views.APIView):
     template_name = 'cosign/topology/index.html'
     def get_data(self, request, context, *args, **kwargs):
-        # get the vnode topology and it's topology
+        # get the vdc
+        global tenant_id
+        tenant_id = self.request.user.tenant_id
         vnodes = []
         vlinks = []
+        r = requests.get("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id)
+        vdc = r.text
         # Gather our flavors
         try:
             flavors = api.nova.flavor_list(self.request)
@@ -68,14 +74,14 @@ class IndexView(views.APIView):
             exceptions.handle(self.request, ignore=True)
 
         # populate the context send to the HTML template
-        context["virtual_nodes"] = vnodes
-        context["tenant_id"] = self.request.user.tenant_id
+        context["vdc"] = json.dumps(vdc)
+        print ".............................................................."
+        print context["vdc"]
+        context["tenant_id"] = tenant_id
         context["flavors"] = flavors_info
         context["flavors_js"] = json.dumps(flavors_info)
         context["images"] = images_info
         context["images_js"] = json.dumps(images_info)
-        print context["flavors"]
-        print ".............................................::"
         if request.session.get("has_started_vdc", True):
             context["state"] = "initialized"
         else:
@@ -87,14 +93,19 @@ def create_vdc(request):
     request.session["has_started_vdc"] = True
     return HttpResponse(message)
 
-def clear_vdc(request):
-    message = "Clearing VDC"
-    return HttpResponse(message)
+def submit_vdc(request):
+    vdc = request.POST['json']
+    r = requests.post("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id, vdc)
+    return HttpResponse(json.dumps(r.text))
 
-def save_request(request):
-    topology = json.loads(request.body)
-    message = "Topology Saved!"
-    return HttpResponse(message)
+def delete_vdc(request):
+    r = requests.delete("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id)
+    return HttpResponse(json.dumps(r.text))
+
+def get_vdc(request):
+    r = requests.get("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id, vdc)
+    return HttpResponse(json.dumps(r.text))
+
 
 def index(request):
     index = "index"
