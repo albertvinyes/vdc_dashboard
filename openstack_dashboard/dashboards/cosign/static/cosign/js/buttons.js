@@ -63,13 +63,65 @@ $(function () {
                     $.jStorage.set("request", null);
                     /* Tell Horizon the VDC must be unstacked */
                     $.ajax({
-                         type:"POST",
-                         crossDomain: true,
-                         xhrFields: {withCredentials: true},
-                         url:"http://84.88.32.99:8877/cosign/delete_vdc/",
-                         success: function(){
-                             console.log("Server succes response from delete_vdc");
-                         }
+                        type:"POST",
+                        crossDomain: true,
+                        xhrFields: {withCredentials: true},
+                        url:"http://84.88.32.99:8877/cosign/delete_vdc/",
+                        beforeSend: function() {
+                            $('#clear-vdc').toggleClass('active');
+                        },
+                        complete: function() {
+                            $('#clear-vdc').toggleClass('active');
+                        },
+                        success: function(response) {
+                            /* Show notification */
+                            $.bootstrapGrowl(response, {
+                                ele: 'body', // which element to append to
+                                type: 'success', // (null, 'info', 'danger', 'success')
+                                offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+                                align: 'right', // ('left', 'right', or 'center')
+                                width: 'auto', // (integer, or 'auto')
+                                delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                                allow_dismiss: true, // If true then will display a cross to close the popup.
+                                stackup_spacing: 10 // spacing between consecutively stacked growls.
+                            });
+                            /* Clear the DOM */
+                            var options = get_topology_options();
+                            nodes = new vis.DataSet();
+                            edges = new vis.DataSet();
+                            virtual_nodes = new vis.DataSet();
+                            virtual_links = new vis.DataSet();
+                            topology = {
+                                nodes: nodes,
+                                edges: edges
+                            };
+                            container = document.getElementById('network');
+                            network = new vis.Network(container, topology, options);
+                            network.on("click", function (params) {
+                                info_listener(params);
+                            });
+                            localStorage.clear();
+                            request = {
+                                tenantID: tenant_id,
+                                vnodes: [],
+                                vlinks: [],
+                            };
+                            $.jStorage.set("request", null);
+                        },
+                        error: function(response) {
+                            $('#clear-vdc').toggleClass('active');
+                            $.bootstrapGrowl(response, {
+                                ele: 'body', // which element to append to
+                                type: 'danger', // (null, 'info', 'danger', 'success')
+                                offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+                                align: 'right', // ('left', 'right', or 'center')
+                                width: 'auto', // (integer, or 'auto')
+                                delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                                allow_dismiss: true, // If true then will display a cross to close the popup.
+                                stackup_spacing: 10 // spacing between consecutively stacked growls.
+                           });
+
+                        }
                     });
                     $('#request').empty();
                 }
@@ -108,12 +160,30 @@ $(function () {
                             $('#submit-vdc').toggleClass('active');
                         },
                         success: function(response) {
-                            console.log("Succes response for submit: " + response);
                             clear_local_storage();                           
+                            $.bootstrapGrowl(response, {
+                                ele: 'body', // which element to append to
+                                type: 'success', // (null, 'info', 'danger', 'success')
+                                offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+                                align: 'right', // ('left', 'right', or 'center')
+                                width: 'auto', // (integer, or 'auto')
+                                delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                                allow_dismiss: true, // If true then will display a cross to close the popup.
+                                stackup_spacing: 10 // spacing between consecutively stacked growls.
+                            });
                         },
                         error: function(response) {
-                            console.log("Error response for submit: " + JSON.stringify(response));
                             $('#submit-vdc').toggleClass('active');
+                            $.bootstrapGrowl(response, {
+                                ele: 'body',
+                                type: 'danger',
+                                offset: {from: 'top', amount: 20},
+                                align: 'right',
+                                width: 'auto', 
+                                delay: 4000,
+                                allow_dismiss: true,
+                                stackup_spacing: 10
+                            });
                         }
                      });
                 }

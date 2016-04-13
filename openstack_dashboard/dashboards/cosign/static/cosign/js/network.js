@@ -40,7 +40,7 @@ function load_topology() {
        stored_edges = JSON.parse(localStorage.getItem('edges'))["_data"];
     }*/
     var submitted_nodes = submitted_request.vnodes;
-    var submitted_edges = submitted_request.edges;
+    var submitted_edges = submitted_request.vlinks;
     nodes = new vis.DataSet();
     edges = new vis.DataSet();
     /* Add the submitted vdc to the network */
@@ -159,7 +159,7 @@ function get_topology_options() {
                             id: data.id,
                             bandwith: result,
                             to: data.to,
-                            from: data.from
+                            from: data.from,
                         });
                         save_topology();
                     }
