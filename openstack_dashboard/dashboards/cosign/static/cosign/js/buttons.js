@@ -58,7 +58,7 @@ $(function () {
                     request = {
                         tenantID: tenant_id,
                         vnodes: [],
-                        vlinks: [],
+                        vlinks: []
                     };
                     $.jStorage.set("request", null);
                     /* Tell Horizon the VDC must be unstacked */
@@ -69,9 +69,15 @@ $(function () {
                         url:"http://84.88.32.99:8877/cosign/delete_vdc/",
                         beforeSend: function() {
                             $('#clear-vdc').toggleClass('active');
+                            $("#clear-vdc").prop('disabled', true);
+                            $("#submit-vdc").prop('disabled', true);
+                            $('.vis-button').hide();
                         },
                         complete: function() {
                             $('#clear-vdc').toggleClass('active');
+                            $("#clear-vdc").prop('disabled', false);
+                            $("#submit-vdc").prop('disabled', false);
+                            $('.vis-button').show();
                         },
                         success: function(response) {
                             /* Show notification */
@@ -155,9 +161,15 @@ $(function () {
                         dataType: 'json',
                         beforeSend: function() {
                             $('#submit-vdc').toggleClass('active');
+                            $("#clear-vdc").prop('disabled', true);
+                            $("#submit-vdc").prop('disabled', true);
+                            $('.vis-button').hide();
                         },
                         complete: function() {
                             $('#submit-vdc').toggleClass('active');
+                            $("#clear-vdc").prop('disabled', false);
+                            $("#submit-vdc").prop('disabled', false);
+                            $('.vis-button').show();
                         },
                         success: function(response) {
                             clear_local_storage();                           
