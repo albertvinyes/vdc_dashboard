@@ -100,7 +100,27 @@ function load_topology() {
 }
 
 function get_topology_options() {
+    var locales = {
+        en: {
+            edit: 'Edit',
+            del: 'Delete selected',
+            back: 'Back',
+            addNode: 'Add Virtual Node',
+            addEdge: 'Add Virtual Link',
+            editNode: 'Edit Virtual Node',
+            editEdge: 'Edit VIrtual Edge',
+            addDescription: 'Click in an empty space to place a new virtual node.',
+            edgeDescription: 'Click on a node and drag the edge to another node to connect them.',
+            editEdgeDescription: 'Click on the control points and drag them to a node to connect to it.',
+            createEdgeError: 'Cannot link edges to a cluster.',
+            deleteClusterError: 'Clusters cannot be deleted.',
+            editClusterError: 'Clusters cannot be edited.'
+        }
+    };
     var topology_options = {
+        autoResize: true,
+        locale: 'en',
+        locales: locales,
         interaction: {
             zoomView: true
         },
@@ -193,20 +213,13 @@ function show_info(id,posX,posY) {
 }
 
 function info_listener(params) {
-    /* Due to vis.js limitations this is the most eficient solution to change the vis-manipulation text */
-    var interval = setInterval(function() {
-        $('.vis-connect').children('.vis-label').html("Add Link");
-        if ($('.vis-connect').children('.vis-label').html() == "Add Link") {
-            clearInterval(interval);
-        }
-    },1);
     /* If the user clicks a node display the information of that node */
     if (params.nodes.length == 0) return false;
     var id = params.nodes[0];
     var pos = network.getPositions(id)[id];
     pos = network.canvasToDOM(pos);
     show_info(id,pos.x,pos.y);
-    /* Populate with data */
+    /* Populate ththeh popover */
     var node = network.getSelectedNodes()[0];
     var label = nodes["_data"][node].label;
     var id = nodes["_data"][node].id;

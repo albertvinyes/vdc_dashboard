@@ -40,13 +40,14 @@ class IndexView(views.APIView):
         vlinks = []
         r = requests.get("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id)
         vdc = r.text
+        flavors_info = {}
+        images_info = []
         # Gather our flavors
         try:
             flavors = api.nova.flavor_list(self.request)
             #Get the details of our flavors
             full_flavors = OrderedDict([(str(flavor.id), flavor)
                                        for flavor in flavors])
-            flavors_info = {}
             for key in full_flavors:
                 flavor = api.nova.flavor_get(self.request, key)
                 flavors_info[key] = {"name": flavor.name,
@@ -64,7 +65,6 @@ class IndexView(views.APIView):
             images, more, prev = api.glance.image_list_detailed(self.request)
             full_images = OrderedDict([(str(image.id), image)
                                        for image in images])
-            images_info = []
             for image in images:
                 if (image.is_public): 
                     images_info.append({"name": image.name,
@@ -73,10 +73,8 @@ class IndexView(views.APIView):
             images = []
             exceptions.handle(self.request, ignore=True)
 
-        # populate the context send to the HTML template
+        # populate the context sent to the HTML template
         context["vdc"] = json.dumps(vdc)
-        print ".............................................................."
-        print context["vdc"]
         context["tenant_id"] = tenant_id
         context["flavors"] = flavors_info
         context["flavors_js"] = json.dumps(flavors_info)
