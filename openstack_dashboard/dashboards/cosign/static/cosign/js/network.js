@@ -55,7 +55,8 @@ function load_topology() {
             id: submitted_edges[key].id,
             bandwith: submitted_edges[key].bandwith,
             to: submitted_edges[key].to,
-            from: submitted_edges[key].from
+            from: submitted_edges[key].from,
+            color: "#00AAA0"
         });
     }
     topology = {
@@ -99,10 +100,10 @@ function get_topology_options() {
             stabilization: true,
             barnesHut: {
                   gravitationalConstant: -2000,
-                  centralGravity: 1,
+                  centralGravity: 0,
                   springLength: 95,
-                  springConstant: 0.04,
-                  damping: 0.09,
+                  springConstant: 0.1,
+                  damping: 0.5,
                   avoidOverlap: 1
             }
         },
@@ -128,7 +129,7 @@ function get_topology_options() {
             },
             editNode: function (data, callback) {
                 network.enableEditMode();
-                bootbox.prompt("Enter the new desired Label for the <b> Virtual Node </b>", function(result) {
+                bootbox.prompt("Enter the new desired Label for the <b> "+ data.label +"</b> node", function(result) {
                     if (result) {
                         result = removeTags(result);
                         var id = network.getSelectedNodes()[0];
@@ -158,7 +159,7 @@ function get_topology_options() {
                             to: data.to,
                             from: data.from,
                         });
-                        new_vlinks.push({id: data.id, color: "#2B7CE9"});             
+                        new_vlinks.push({id: data.id, color: "#00AAA0"});             
                         save_topology();
                     }
                 });
