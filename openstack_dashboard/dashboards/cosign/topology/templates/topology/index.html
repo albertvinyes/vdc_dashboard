@@ -2,19 +2,19 @@
 {% load i18n %}
 {% block title %}{% trans "Topology" %}{% endblock %}
 {% block page_header %}
-{% include "horizon/common/_page_header.html" with title=_("Virtual Data Center Topology") %}
+{% include "horizon/common/_page_header.html" with title=_("Topology") %}
 {% endblock page_header %}
 {% block main %}
 {% include "horizon/_messages.html" %}
 {% include 'cosign/topology/dependencies.html' %}
-{% include 'cosign/topology/cards.html' %}
+{% include 'cosign/topology/buttons.html' %}
 {% csrf_token %}
 <!-- Topology container-->
 {% include 'cosign/topology/add_instances.html' %}
 {% include 'cosign/topology/balloon.html' %}
-<div id="network" class="initialized col-xs-8 no-padding">
+<div id="network" class="initialized col-lg-8 col-md-7 no-padding">
 </div>
-<div class="col-xs-4">
+<div class="col-lg-4 col-md-5">
     <pre id="request"></pre>
 </div>
 <script>

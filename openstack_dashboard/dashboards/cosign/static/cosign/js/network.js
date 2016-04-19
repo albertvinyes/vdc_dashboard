@@ -1,12 +1,12 @@
 var request = null;
-var vnodes = null;
 var nodes = null;
 var edges = null;
 var network = null;
 var topology = null;
 var vnode_index = null;
-var vlink_id = null;
-var container;
+var new_vnodes = [];
+var new_vlinks = [];
+var node = null;
 
 function destroy_topology() {
     if (network !== null) {
@@ -30,15 +30,8 @@ function save_topology() {
 
 function load_topology() {
     destroy_topology();
-    container = document.getElementById('network');
-    //request = $.jStorage.get("request"); 
+    var container = document.getElementById('network');
     request = submitted_request;
-    /*var stored_nodes = [];
-    var stored_edges =  [];
-    if (request != null) {
-       stored_nodes = JSON.parse(localStorage.getItem('nodes'))["_data"];
-       stored_edges = JSON.parse(localStorage.getItem('edges'))["_data"];
-    }*/
     var submitted_nodes = submitted_request.vnodes;
     var submitted_edges = submitted_request.vlinks;
     nodes = new vis.DataSet();
@@ -65,29 +58,6 @@ function load_topology() {
             from: submitted_edges[key].from
         });
     }
-    /* Add the retrieved data from local storage to the network 
-    for (var key in stored_nodes) {
-        nodes.add({
-            id: stored_nodes[key].id,
-            label: stored_nodes[key].label,
-            x: stored_nodes[key].x,
-            y: stored_nodes[key].y,
-            image: STATIC_URL + "cosign/img/stack-gray.svg",
-            borderWidth: 0,
-            shape: 'image',
-            size: 40
-        });
-    }
-    for (var key in stored_edges) {
-        edges.add({
-            title: "Bw: " + stored_edges[key].bandwith + " Mbps.",
-            id: stored_edges[key].id,
-            bandwith: stored_edges[key].bandwith,
-            to: stored_edges[key].to,
-            from: stored_edges[key].from,
-            color: gray
-        });
-    }*/
     topology = {
         nodes: nodes,
         edges: edges
@@ -107,7 +77,7 @@ function get_topology_options() {
             back: 'Back',
             addNode: 'Add Virtual Node',
             addEdge: 'Add Virtual Link',
-            editNode: 'Edit Virtual Node',
+            editNode: 'Edit Virtual Node Label',
             editEdge: 'Edit VIrtual Edge',
             addDescription: 'Click in an empty space to place a new virtual node.',
             edgeDescription: 'Click on a node and drag the edge to another node to connect them.',
@@ -126,9 +96,10 @@ function get_topology_options() {
         },
         physics: {
             enabled: true,
+            stabilization: true,
             barnesHut: {
                   gravitationalConstant: -2000,
-                  centralGravity: 0,
+                  centralGravity: 1,
                   springLength: 95,
                   springConstant: 0.04,
                   damping: 0.09,
@@ -149,7 +120,8 @@ function get_topology_options() {
                             id: data.id,
                             label: data.label,
                             vms: []
-                        });             
+                        });
+                        new_vnodes.push({id: data.id, image: STATIC_URL + "cosign/img/stack-green.svg"});             
                         save_topology();
                     }
                 });
@@ -161,8 +133,12 @@ function get_topology_options() {
                         result = removeTags(result);
                         var id = network.getSelectedNodes()[0];
                         nodes.update({id: id, label: result});
+                        var i;
+                        for (i = 0; i < request.vnodes.length; i++) {
+                            if (request.vnodes[i].id == id) break;
+                        }
                         //TODO: update request node label
-                        request.vnodes[node].label = result;
+                        request.vnodes[i].label = result;
                         save_topology();
                     }
                 });
@@ -174,6 +150,7 @@ function get_topology_options() {
                         result = removeTags(result);
                         data.title = "Bw: " + result + " Mbps."
                         data.bandwith = result;
+                        data.color = "#333333";
                         edges.add(data);
                         request.vlinks.push({
                             id: data.id,
@@ -181,6 +158,7 @@ function get_topology_options() {
                             to: data.to,
                             from: data.from,
                         });
+                        new_vlinks.push({id: data.id, color: "#2B7CE9"});             
                         save_topology();
                     }
                 });
@@ -208,8 +186,8 @@ function get_index_of(id) {
 function show_info(id,posX,posY) {
     $('#balloon').show();
     $('.popover-arrow').show();
-    $('#balloon').css({"left": posX + 50, "top": posY + 250});
-    $('.popover-arrow').css({"left": posX + 40, "top": posY + 270});
+    $('#balloon').css({"left": posX + 50, "top": posY + 50});
+    $('.popover-arrow').css({"left": posX + 40, "top": posY + 70});
 }
 
 function info_listener(params) {
@@ -220,7 +198,7 @@ function info_listener(params) {
     pos = network.canvasToDOM(pos);
     show_info(id,pos.x,pos.y);
     /* Populate ththeh popover */
-    var node = network.getSelectedNodes()[0];
+    node = network.getSelectedNodes()[0];
     var label = nodes["_data"][node].label;
     var id = nodes["_data"][node].id;
     $("#balloon-virtual-node-label").html(label);
@@ -265,7 +243,7 @@ $(function() {
             nodes: nodes,
             edges: edges
         };
-        container = document.getElementById('network');
+        var container = document.getElementById('network');
         network = new vis.Network(container, topology, options);
         network.fit();
     } /* Otherwise, load it*/ 

@@ -110,9 +110,10 @@ pre {
     padding-right: 0 !important;
     position: relative;
     left: 15px;
+    border-radius: 0px !important;
 }
 .string { 
-    color: green; 
+    color: black; 
 }
 .number { 
     color: darkorange; 
@@ -124,5 +125,8 @@ pre {
     color: magenta; 
 }
 .key { 
-    color: red; 
+    color: #3366FF; 
+}
+#clear-vdc, #submit-vdc {
+    float: right;
 }

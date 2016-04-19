@@ -16,7 +16,7 @@ import horizon
 from openstack_dashboard.dashboards.cosign import dashboard
 
 class Topology(horizon.Panel):
-    name = _("VDC Topology")
+    name = _("Topology")
     slug = "topology"
 
 

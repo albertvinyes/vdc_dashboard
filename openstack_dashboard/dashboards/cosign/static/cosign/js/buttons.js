@@ -39,28 +39,6 @@ $(function () {
             },
             callback: function(result) {
                 if (result) {
-                    /* Clear the DOM */
-                    var options = get_topology_options();
-                    nodes = new vis.DataSet();
-                    edges = new vis.DataSet();
-                    virtual_nodes = new vis.DataSet();
-                    virtual_links = new vis.DataSet();
-                    topology = {
-                        nodes: nodes,
-                        edges: edges
-                    };
-                    container = document.getElementById('network');
-                    network = new vis.Network(container, topology, options);
-                    network.on("click", function (params) {
-                        info_listener(params);
-                    });
-                    localStorage.clear();
-                    request = {
-                        tenantID: tenant_id,
-                        vnodes: [],
-                        vlinks: []
-                    };
-                    $.jStorage.set("request", null);
                     /* Tell Horizon the VDC must be unstacked */
                     $.ajax({
                         type:"POST",
@@ -95,8 +73,8 @@ $(function () {
                             var options = get_topology_options();
                             nodes = new vis.DataSet();
                             edges = new vis.DataSet();
-                            virtual_nodes = new vis.DataSet();
-                            virtual_links = new vis.DataSet();
+                            var virtual_nodes = new vis.DataSet();
+                            var virtual_links = new vis.DataSet();
                             topology = {
                                 nodes: nodes,
                                 edges: edges
@@ -172,17 +150,21 @@ $(function () {
                             $('.vis-button').show();
                         },
                         success: function(response) {
-                            clear_local_storage();                           
-                            $.bootstrapGrowl(response, {
-                                ele: 'body', // which element to append to
-                                type: 'success', // (null, 'info', 'danger', 'success')
-                                offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
-                                align: 'right', // ('left', 'right', or 'center')
-                                width: 'auto', // (integer, or 'auto')
-                                delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
-                                allow_dismiss: true, // If true then will display a cross to close the popup.
-                                stackup_spacing: 10 // spacing between consecutively stacked growls.
-                            });
+                            clear_local_storage();
+                            if (response == "VDC REGISTERED") {                           
+                                $.bootstrapGrowl(response, {
+                                    ele: 'body', // which element to append to
+                                    type: 'success', // (null, 'info', 'danger', 'success')
+                                    offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+                                    align: 'right', // ('left', 'right', or 'center')
+                                    width: 'auto', // (integer, or 'auto')
+                                    delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                                    allow_dismiss: true, // If true then will display a cross to close the popup.
+                                    stackup_spacing: 10 // spacing between consecutively stacked growls.
+                                });
+                                nodes.update(new_vnodes);
+                                edges.update(new_vlinks);
+                            }
                         },
                         error: function(response) {
                             $('#submit-vdc').toggleClass('active');
