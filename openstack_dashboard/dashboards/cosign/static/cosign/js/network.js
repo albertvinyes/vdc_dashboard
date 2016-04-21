@@ -102,7 +102,7 @@ function get_topology_options() {
                   gravitationalConstant: -2000,
                   centralGravity: 0,
                   springLength: 95,
-                  springConstant: 0.1,
+                  springConstant: 0.04,
                   damping: 0.5,
                   avoidOverlap: 1
             }
@@ -138,7 +138,6 @@ function get_topology_options() {
                         for (i = 0; i < request.vnodes.length; i++) {
                             if (request.vnodes[i].id == id) break;
                         }
-                        //TODO: update request node label
                         request.vnodes[i].label = result;
                         save_topology();
                     }
@@ -205,6 +204,15 @@ function info_listener(params) {
     $("#balloon-virtual-node-label").html(label);
     $("#balloon-virtual-node-id").html(id);
     vnode_index =  get_index_of(id);
+    if (nodes["_data"][id].image.indexOf("gray") == -1) {
+        $("#device-status").text("ACTIVE"); 
+        $("#device-status").removeClass("inactive");
+        $("#device-status").addClass("active");
+    } else {
+        $("#device-status").text("INACTIVE");
+        $("#device-status").removeClass("active");
+        $("#device-status").addClass("inactive");
+    }
     $('#balloon-instances-list tr:gt(0)').remove();
     for (var i = 0; i < request.vnodes[vnode_index].vms.length; i++) {
         var vm_label = request.vnodes[vnode_index].vms[i].label;
@@ -218,6 +226,7 @@ function info_listener(params) {
             var link_bw = request.vlinks[k].bandwith;
             if (request.vlinks[k].to == id) var link_to = request.vlinks[k].from;
             else var link_to = request.vlinks[k].to;
+            link_to = nodes["_data"][link_to].label;
             var row = "<tr><th><span style='color:black;font-weight:normal'>"+link_to+"</span></th><td>"+link_bw+" Mbps</td><td class='delete'><button id='remove-link-vnode' class='delete-port btn btn-danger btn-xs' onclick='remove_link("+k+")'>Remove</button></td></tr>";
             $('#balloon-links-list').append(row);   
         }
