@@ -130,7 +130,7 @@ pre {
 #clear-vdc, #submit-vdc {
     float: right;
 }
-.inactive {
+.inactive::before {
     content: "";
     width: 9px;
     height: 9px;
@@ -138,6 +138,5 @@ pre {
     background: #d9534f;
     margin-right: 3px;
     border-radius: 10px;
-    padding-left: 11px;
-    box-sizing: border-box;
+    vertical-align: middle;
 }
