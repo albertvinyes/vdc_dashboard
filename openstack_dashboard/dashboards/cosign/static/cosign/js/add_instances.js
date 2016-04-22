@@ -4,7 +4,6 @@ var flavor_name;
 $(function() {
     $('#id_flavor').change(function() {
         var val = $('#id_flavor').val();
-        console.log("flavor name: " + flavor_name);
         $('#flavor_name').html(flavors[val].name);
         $('#flavor_vcpus').html(flavors[val].vcpu);
         $('#flavor_disk').html(flavors[val].disk);
@@ -27,7 +26,6 @@ $(function() {
         var len = request.vnodes.length;
         for (i = 0; i < len; i++) {
             if (request.vnodes[i].id == nodeID) {
-                console.log("found node to add instances");
                 for (var k = 0; k < instances; k++) {
                     var nameCount = name;
                     if (instances > 1) {
@@ -41,7 +39,6 @@ $(function() {
                         imageID: image
                     };
                     request.vnodes[i].vms.push(obj);
-                    console.log(flavor_name);
                     save_topology();
                 }
             }

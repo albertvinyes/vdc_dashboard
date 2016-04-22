@@ -1,6 +1,8 @@
 var request = null;
 var nodes = null;
 var edges = null;
+var vis_new_nodes = null;
+var vis_new_edges = null;
 var network = null;
 var topology = null;
 var vnode_index = null;
@@ -16,15 +18,13 @@ function destroy_topology() {
 }
 
 function clear_local_storage() {
-    localStorage.setItem('nodes', null);
-    localStorage.setItem('edges', null);
-    $.jStorage.set("request",null);
+    $.jStorage.set("nodes",null);
+    $.jStorage.set("edges",null)
 }
 
-function save_topology() {
-    localStorage.setItem('nodes', JSON.stringify(nodes));
-    localStorage.setItem('edges', JSON.stringify(edges));
-    $.jStorage.set("request",request);
+function save_topology() {/*
+    $.jStorage.set("nodes",vis_new_nodes);
+    $.jStorage.set("edges",vis_new_edges);*/
     show_request(request);
 }
 
@@ -34,8 +34,8 @@ function load_topology() {
     request = submitted_request;
     var submitted_nodes = submitted_request.vnodes;
     var submitted_edges = submitted_request.vlinks;
-    nodes = new vis.DataSet();
-    edges = new vis.DataSet();
+    vis_new_nodes = new vis.DataSet($.jStorage.get("nodes"));
+    vis_js_edges = new vis.DataSet($.jStorage.get("edges"));
     /* Add the submitted vdc to the network */
     for (var key in submitted_nodes) {
         nodes.add({
@@ -59,6 +59,48 @@ function load_topology() {
             color: "#00AAA0"
         });
     }
+    /* Add the unsubmitted nodes and edges to the network 
+    if ($.jStorage.get("nodes")["length"] != 0) {
+        var local_storage_nodes = $.jStorage.get("nodes")["_data"];
+        for (var key in local_storage_nodes) {
+            nodes.add({
+                id: local_storage_nodes[key].id,
+                label: local_storage_nodes[key].label,
+                x: local_storage_nodes[key].x,
+                y: local_storage_nodes[key].y,
+                image: STATIC_URL + "cosign/img/stack-gray.svg",
+                borderWidth: 0,
+                shape: 'image',
+                size: 40
+            });
+            console.log("adding node from jstorage");
+            console.log(local_storage_nodes[key].vms);
+            request.vnodes.push({
+                id: local_storage_nodes[key].id,
+                label: local_storage_nodes[key].label,
+                vms: local_storage_nodes[key].vms
+            });
+        }
+    }
+    if ($.jStorage.get('edges')["length"] != 0) {
+        var local_storage_edges = $.jStorage.get("edges")["_data"];
+        for (var key in local_storage_edges) {
+            edges.add({
+                title: "Bw: " + local_storage_edges[key].bandwith + " Mbps.",
+                id: local_storage_edges[key].id,
+                bandwith: local_storage_edges[key].bandwith,
+                to: local_storage_edges[key].to,
+                from: local_storage_edges[key].from,
+                color: "#333333"
+            });
+            request.vlinks.push({
+                id: local_storage_edges[key].id,
+                bandwith: local_storage_edges[key].bandwith,
+                to: local_storage_edges[key].to,
+                from: local_storage_edges[key].from,
+            });
+        }
+    }*/
     topology = {
         nodes: nodes,
         edges: edges
@@ -117,6 +159,7 @@ function get_topology_options() {
                         data.borderWidth = 0;
                         data.size = 40;
                         nodes.add(data);
+                        vis_new_nodes.add(data);
                         request.vnodes.push({
                             id: data.id,
                             label: data.label,
@@ -134,6 +177,7 @@ function get_topology_options() {
                         result = removeTags(result);
                         var id = network.getSelectedNodes()[0];
                         nodes.update({id: id, label: result});
+                        vis_new_nodes.update({id: id, label: result});
                         var i;
                         for (i = 0; i < request.vnodes.length; i++) {
                             if (request.vnodes[i].id == id) break;
@@ -152,6 +196,7 @@ function get_topology_options() {
                         data.bandwith = result;
                         data.color = "#333333";
                         edges.add(data);
+                        vis_new_edges.add(data);
                         request.vlinks.push({
                             id: data.id,
                             bandwith: result,
@@ -197,7 +242,7 @@ function info_listener(params) {
     var pos = network.getPositions(id)[id];
     pos = network.canvasToDOM(pos);
     show_info(id,pos.x,pos.y);
-    /* Populate ththeh popover */
+    /* Populate the popover */
     node = network.getSelectedNodes()[0];
     var label = nodes["_data"][node].label;
     var id = nodes["_data"][node].id;
@@ -237,13 +282,15 @@ $(function() {
     $.ajaxSetup({
         data: {csrfmiddlewaretoken: window.CSRF_TOKEN},
     });
+    nodes = new vis.DataSet();
+    edges = new vis.DataSet();
+    vis_new_nodes = new vis.DataSet();
+    vis_new_edges = new vis.DataSet();
     /* If there's no topology request create a new one */
     if (submitted_request.vnodes == null) {
         console.log("submitted request nodes is null");
         console.log(submitted_request);
         var options = get_topology_options();
-        nodes = new vis.DataSet();
-        edges = new vis.DataSet();
         request = {
             tenantID: tenant_id,
             vnodes: [],

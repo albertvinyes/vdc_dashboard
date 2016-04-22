@@ -17,7 +17,7 @@ $(function () {
              type:"POST",
              crossDomain: true,
              xhrFields: {withCredentials: true},
-             url:"http://84.88.32.99:8877/cosign/get_vdc/",
+             url: document.URL+"get_vdc/",
              success: function(){
                  console.log("Server response from create_vdc");
              }
@@ -44,7 +44,7 @@ $(function () {
                         type:"POST",
                         crossDomain: true,
                         xhrFields: {withCredentials: true},
-                        url:"http://84.88.32.99:8877/cosign/delete_vdc/",
+                        url: document.URL+"delete_vdc/",
                         beforeSend: function() {
                             $('#clear-vdc').toggleClass('active');
                             $("#clear-vdc").prop('disabled', true);
@@ -84,7 +84,7 @@ $(function () {
                             network.on("click", function (params) {
                                 info_listener(params);
                             });
-                            localStorage.clear();
+                            clear_local_storage();
                             request = {
                                 tenantID: tenant_id,
                                 vnodes: [],
@@ -129,7 +129,7 @@ $(function () {
             callback: function(result) {
                 if (result) {
                     /* TODO: Tell the algorithms to deploy the request */
-                    var url = "http://84.88.32.99:8877/cosign/submit_vdc/";
+                    var url = document.URL+"submit_vdc/";
                     $.ajax({
                         type:"POST",
                         crossDomain: true,
@@ -179,7 +179,7 @@ $(function () {
                                 stackup_spacing: 10
                             });
                         }
-                     });
+                    });
                 }
             }
         });
