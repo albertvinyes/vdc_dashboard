@@ -16,10 +16,13 @@
 {% include 'cosign/topology/add_node.html' %}
 {% include 'cosign/topology/add_instances.html' %}
 {% include 'cosign/topology/balloon.html' %}
-<div id="network" class="col-lg-8 col-md-7 no-padding">
-</div>
-<div class="col-lg-4 col-md-5">
-    <pre id="request"></pre>
+<div class="row">
+    <div class="col-lg-8 col-md-7">
+        <div id="network"></div>
+    </div>
+    <div class="col-lg-4 col-md-5">
+        <pre id="request"></pre>
+    </div>
 </div>
 <script>
     jsState = "{{state}}";

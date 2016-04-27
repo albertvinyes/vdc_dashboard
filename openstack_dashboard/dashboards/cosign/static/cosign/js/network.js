@@ -15,15 +15,6 @@ function destroy_topology() {
     }
 }
 
-function clear_local_storage() {
-    $.jStorage.set("nodes",null);
-    $.jStorage.set("edges",null)
-}
-
-function save_topology() {
-    show_request(request);
-}
-
 function load_topology() {
     destroy_topology();
     var container = document.getElementById('network');
@@ -164,7 +155,7 @@ function get_topology_options() {
                             if (request.vnodes[i].id == id) break;
                         }
                         request.vnodes[i].label = result;
-                        save_topology();
+                        show_topology(request);
                     }
                 });
             },
@@ -185,7 +176,7 @@ function get_topology_options() {
                             from: data.from,
                         });
                         new_vlinks.push({id: data.id, color: "#00AAA0"});             
-                        save_topology();
+                        show_request(request);
                     }
                 });
                 if (data.from == data.to) {

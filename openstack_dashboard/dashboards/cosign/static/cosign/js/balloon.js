@@ -29,7 +29,7 @@ function remove_instance_vnode(index) {
     request.vnodes[vnode_index].vms.splice(index,1);
     a.hide();
     d.hide();
-    save_topology();
+    show_request(request);
 }
 
 function remove_link(index) {
@@ -37,7 +37,7 @@ function remove_link(index) {
     d.hide();
     request.vlinks.splice(index,1);
     edges.remove(edges.getIds(index)[index]);
-    save_topology();
+    show_request(request);
 }
 
 function remove_vnode() {
@@ -64,5 +64,5 @@ function remove_vnode() {
             }
         }
     }
-    save_topology();
+    show_request(request);
 }

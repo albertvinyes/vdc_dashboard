@@ -6,8 +6,8 @@ body, html {
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
-.row {
-    width:100%;
+.no-margin {
+    margin: 0 !important;
 }
 .vis-manipulation {
     padding: 4px !important;
@@ -101,8 +101,6 @@ pre {
     font-size: 10.5px;
     overflow-y: auto;
     padding-right: 0 !important;
-    position: relative;
-    left: 15px;
     border-radius: 0px !important;
 }
 .string { 
