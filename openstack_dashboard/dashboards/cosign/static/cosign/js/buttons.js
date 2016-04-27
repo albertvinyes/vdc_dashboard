@@ -4,25 +4,6 @@ $(function () {
         data: {csrfmiddlewaretoken: window.CSRF_TOKEN},
     });
     /* BUTTON METHODS */
-    $('#create-vdc').click(function() {
-        $(".initialized").fadeIn("slow");
-        $("#create-vdc").prop("disabled", true);
-        $("#clear-vdc").prop("disabled", false);
-        $("#submit-vdc").prop("disabled", false);
-        $('html,body').stop().animate({
-          scrollTop: 300
-        }, 1000);
-        /* Tell Horizon the VDC request has been initialized */
-        $.ajax({
-             type:"POST",
-             crossDomain: true,
-             xhrFields: {withCredentials: true},
-             url: document.URL+"get_vdc/",
-             success: function(){
-                 console.log("Server response from create_vdc");
-             }
-        });
-    });
     $('#clear-vdc').click(function() {
         bootbox.confirm({
             title: 'Warning',
@@ -51,46 +32,49 @@ $(function () {
                             $("#submit-vdc").prop('disabled', true);
                             $('.vis-button').hide();
                         },
-                        complete: function() {
+                        complete: function(response) {
                             $('#clear-vdc').toggleClass('active');
                             $("#clear-vdc").prop('disabled', false);
                             $("#submit-vdc").prop('disabled', false);
                             $('.vis-button').show();
+                            console.log(response);
                         },
                         success: function(response) {
-                            /* Show notification */
-                            $.bootstrapGrowl(response, {
-                                ele: 'body', // which element to append to
-                                type: 'success', // (null, 'info', 'danger', 'success')
-                                offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
-                                align: 'right', // ('left', 'right', or 'center')
-                                width: 'auto', // (integer, or 'auto')
-                                delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
-                                allow_dismiss: true, // If true then will display a cross to close the popup.
-                                stackup_spacing: 10 // spacing between consecutively stacked growls.
-                            });
-                            /* Clear the DOM */
-                            var options = get_topology_options();
-                            nodes = new vis.DataSet();
-                            edges = new vis.DataSet();
-                            var virtual_nodes = new vis.DataSet();
-                            var virtual_links = new vis.DataSet();
-                            topology = {
-                                nodes: nodes,
-                                edges: edges
-                            };
-                            container = document.getElementById('network');
-                            network = new vis.Network(container, topology, options);
-                            network.on("click", function (params) {
-                                info_listener(params);
-                            });
-                            clear_local_storage();
-                            request = {
-                                tenantID: tenant_id,
-                                vnodes: [],
-                                vlinks: [],
-                            };
-                            $.jStorage.set("request", null);
+                            response = response.slice(1, response.length-1);
+                            if (response == "Delete operation has been processed") {
+                                /* Show notification */
+                                $.bootstrapGrowl(response, {
+                                    ele: 'body', // which element to append to
+                                    type: 'success', // (null, 'info', 'danger', 'success')
+                                    offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+                                    align: 'right', // ('left', 'right', or 'center')
+                                    width: 'auto', // (integer, or 'auto')
+                                    delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                                    allow_dismiss: true, // If true then will display a cross to close the popup.
+                                    stackup_spacing: 10 // spacing between consecutively stacked growls.
+                                });
+                                /* Clear the DOM */
+                                var options = get_topology_options();
+                                nodes = new vis.DataSet();
+                                edges = new vis.DataSet();
+                                var virtual_nodes = new vis.DataSet();
+                                var virtual_links = new vis.DataSet();
+                                topology = {
+                                    nodes: nodes,
+                                    edges: edges
+                                };
+                                container = document.getElementById('network');
+                                network = new vis.Network(container, topology, options);
+                                network.on("click", function (params) {
+                                    info_listener(params);
+                                });
+                                request = {
+                                    tenantID: tenant_id,
+                                    vnodes: [],
+                                    vlinks: [],
+                                };
+                                save_topology();
+                            }
                         },
                         error: function(response) {
                             $('#clear-vdc').toggleClass('active');
@@ -143,15 +127,18 @@ $(function () {
                             $("#submit-vdc").prop('disabled', true);
                             $('.vis-button').hide();
                         },
-                        complete: function() {
+                        complete: function(response) {
                             $('#submit-vdc').toggleClass('active');
                             $("#clear-vdc").prop('disabled', false);
                             $("#submit-vdc").prop('disabled', false);
                             $('.vis-button').show();
+                            console.log("submit request complete");
+                            console.log(response)
                         },
                         success: function(response) {
-                            clear_local_storage();
-                            if (response == "VDC REGISTERED") {                           
+                            console.log("Request succes");
+                            console.log(response);
+                            if (response == "The VDC given has been registered") {
                                 $.bootstrapGrowl(response, {
                                     ele: 'body', // which element to append to
                                     type: 'success', // (null, 'info', 'danger', 'success')

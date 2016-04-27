@@ -1,8 +1,6 @@
 var request = null;
 var nodes = null;
 var edges = null;
-var vis_new_nodes = null;
-var vis_new_edges = null;
 var network = null;
 var topology = null;
 var vnode_index = null;
@@ -22,9 +20,7 @@ function clear_local_storage() {
     $.jStorage.set("edges",null)
 }
 
-function save_topology() {/*
-    $.jStorage.set("nodes",vis_new_nodes);
-    $.jStorage.set("edges",vis_new_edges);*/
+function save_topology() {
     show_request(request);
 }
 
@@ -59,48 +55,6 @@ function load_topology() {
             color: "#00AAA0"
         });
     }
-    /* Add the unsubmitted nodes and edges to the network 
-    if ($.jStorage.get("nodes")["length"] != 0) {
-        var local_storage_nodes = $.jStorage.get("nodes")["_data"];
-        for (var key in local_storage_nodes) {
-            nodes.add({
-                id: local_storage_nodes[key].id,
-                label: local_storage_nodes[key].label,
-                x: local_storage_nodes[key].x,
-                y: local_storage_nodes[key].y,
-                image: STATIC_URL + "cosign/img/stack-gray.svg",
-                borderWidth: 0,
-                shape: 'image',
-                size: 40
-            });
-            console.log("adding node from jstorage");
-            console.log(local_storage_nodes[key].vms);
-            request.vnodes.push({
-                id: local_storage_nodes[key].id,
-                label: local_storage_nodes[key].label,
-                vms: local_storage_nodes[key].vms
-            });
-        }
-    }
-    if ($.jStorage.get('edges')["length"] != 0) {
-        var local_storage_edges = $.jStorage.get("edges")["_data"];
-        for (var key in local_storage_edges) {
-            edges.add({
-                title: "Bw: " + local_storage_edges[key].bandwith + " Mbps.",
-                id: local_storage_edges[key].id,
-                bandwith: local_storage_edges[key].bandwith,
-                to: local_storage_edges[key].to,
-                from: local_storage_edges[key].from,
-                color: "#333333"
-            });
-            request.vlinks.push({
-                id: local_storage_edges[key].id,
-                bandwith: local_storage_edges[key].bandwith,
-                to: local_storage_edges[key].to,
-                from: local_storage_edges[key].from,
-            });
-        }
-    }*/
     topology = {
         nodes: nodes,
         edges: edges
@@ -139,10 +93,13 @@ function get_topology_options() {
         },
         physics: {
             enabled: true,
-            stabilization: true,
+            stabilization: {
+                enabled: true,
+                fit: true
+            },
             barnesHut: {
                   gravitationalConstant: -2000,
-                  centralGravity: 0,
+                  centralGravity: 0.2,
                   springLength: 95,
                   springConstant: 0.04,
                   damping: 0.5,
@@ -151,23 +108,49 @@ function get_topology_options() {
         },
         manipulation: {
             addNode: function (data, callback) {
-                bootbox.prompt("Enter desired Label for the new <strong> Virtual Node </strong>", function(result) {
-                    if (result) {
-                        data.label = removeTags(result);
-                        data.shape = "image";
-                        data.image = STATIC_URL + "cosign/img/stack-gray.svg";
-                        data.borderWidth = 0;
-                        data.size = 40;
-                        nodes.add(data);
-                        vis_new_nodes.add(data);
-                        request.vnodes.push({
-                            id: data.id,
-                            label: data.label,
-                            vms: []
-                        });
-                        new_vnodes.push({id: data.id, image: STATIC_URL + "cosign/img/stack-green.svg"});             
-                        save_topology();
+                $('#add_node_submit').prop('disabled', false);
+                $('#add_node').modal('show');
+                $('#add_vnode_link_list').empty();
+                for (var n = 0; n < request.vnodes.length; n++) {
+                    $('#add_vnode_link_list').append('<div><input class="new-vnode-link" id=' + request.vnodes[n].id + ' type="number" min="1" placeholder="Bandwith"> to <label>'+ request.vnodes[n].label +'</label> </div>');
+                }
+                if (nodes.length == 0) $('#add-node-description').hide();
+                $('#add_vnode_submit').unbind().click(function(data) {
+                    var label = $('#node_name').val();
+                    data.label = removeTags(label);
+                    data.shape = "image";
+                    data.image = STATIC_URL + "cosign/img/stack-gray.svg";
+                    data.borderWidth = 0;
+                    data.size = 40;
+                    nodes.add(data);
+                    request.vnodes.push({
+                        id: data.id,
+                        label: data.label,
+                        vms: []
+                    });
+                    new_vnodes.push({id: data.id, image: STATIC_URL + "cosign/img/stack-green.svg"});
+                    var idArray = [];
+                    $(".new-vnode-link").each(function() {
+                        idArray.push(this.id);
+                    });
+                    for (var x = 0; x < idArray.length; x++) {
+                        var bw = $('#'+idArray[x]).val();
+                        if (bw) {
+                            var addedEdgeID = edges.add({bandwith: 0, to: idArray[x], from: data.id, color: "#333333"});
+                            request.vlinks.push({
+                                id: addedEdgeID[0],
+                                bandwith: bw,
+                                to: idArray[x],
+                                from: data.id
+                            });
+                            new_vlinks.push({id: addedEdgeID[0], color: "#00AAA0"});
+                        }
                     }
+                    show_request(request);
+                    $('#add_node').modal('hide');
+                    network.disableEditMode();
+                    network.stabilize();
+                    network.fit();
                 });
             },
             editNode: function (data, callback) {
@@ -231,8 +214,8 @@ function get_index_of(id) {
 function show_info(id,posX,posY) {
     $('#balloon').show();
     $('.popover-arrow').show();
-    $('#balloon').css({"left": posX + 50, "top": posY + 50});
-    $('.popover-arrow').css({"left": posX + 40, "top": posY + 70});
+    $('#balloon').css({"left": posX + 50, "top": posY + 80});
+    $('.popover-arrow').css({"left": posX + 40, "top": posY + 100});
 }
 
 function info_listener(params) {

@@ -9,4 +9,7 @@ $(function () {
         $('#network').css('height', h);
         $('#request').css('height', h);
     });
+    $('#add_node').on('hidden.bs.modal', function () {
+        network.disableEditMode();        
+    })
 });

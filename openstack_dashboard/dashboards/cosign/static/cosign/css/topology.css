@@ -136,3 +136,9 @@ pre {
     border-radius: 10px;
     vertical-align: middle;
 }
+#addNode .modal-dialog{
+    width: 400px;
+}
+.no-margin {
+    margin: 0;
+}

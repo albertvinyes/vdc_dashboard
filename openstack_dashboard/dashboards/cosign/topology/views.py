@@ -18,6 +18,7 @@ from django.http import HttpResponse
 from keystoneclient.v3 import client
 from horizon import exceptions
 import requests
+from requests.auth import HTTPBasicAuth
 import uuid
 import json
 
@@ -38,7 +39,9 @@ class IndexView(views.APIView):
         tenant_id = self.request.user.tenant_id
         vnodes = []
         vlinks = []
-        r = requests.get("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id)
+        r = requests.get("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id, auth=HTTPBasicAuth('admin', 'password'))
+        print ".................................................................................."
+        print r.text
         vdc = r.text
         flavors_info = {}
         images_info = []
@@ -80,28 +83,22 @@ class IndexView(views.APIView):
         context["flavors_js"] = json.dumps(flavors_info)
         context["images"] = images_info
         context["images_js"] = json.dumps(images_info)
-        if request.session.get("has_started_vdc", True):
-            context["state"] = "initialized"
-        else:
-            context["state"] = "uninitialized"
+        context["state"] = "initialized"
         return context
 
-def create_vdc(request):
-    message = "VDC created"
-    request.session["has_started_vdc"] = True
-    return HttpResponse(message)
 
 def submit_vdc(request):
     vdc = request.POST['json']
-    r = requests.post("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id, vdc)
+    headers = {'content-type': 'application/json'}
+    r = requests.post("http://127.0.0.1:12119/orchestrator/algorithms/vdc/", vdc, auth=HTTPBasicAuth('admin', 'password'), headers=headers)
     return HttpResponse(json.dumps(r.text))
 
 def delete_vdc(request):
-    r = requests.delete("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id)
+    r = requests.delete("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id, auth=HTTPBasicAuth('admin', 'password'))
     return HttpResponse(json.dumps(r.text))
 
 def get_vdc(request):
-    r = requests.get("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id, vdc)
+    r = requests.get("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id, auth=HTTPBasicAuth('admin', 'password'))
     return HttpResponse(json.dumps(r.text))
 
 

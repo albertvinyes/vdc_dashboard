@@ -7,12 +7,16 @@
 {% block main %}
 {% include "horizon/_messages.html" %}
 {% include 'cosign/topology/dependencies.html' %}
+<p>
+ Resize the canvas by scrolling up/down with your mouse/trackpad on the topology. Pan around the canvas by clicking and dragging the space behind the topology. 
+</p>
 {% include 'cosign/topology/buttons.html' %}
 {% csrf_token %}
 <!-- Topology container-->
+{% include 'cosign/topology/add_node.html' %}
 {% include 'cosign/topology/add_instances.html' %}
 {% include 'cosign/topology/balloon.html' %}
-<div id="network" class="initialized col-lg-8 col-md-7 no-padding">
+<div id="network" class="col-lg-8 col-md-7 no-padding">
 </div>
 <div class="col-lg-4 col-md-5">
     <pre id="request"></pre>
@@ -21,20 +25,13 @@
     jsState = "{{state}}";
     tenant_id = "{{tenant_id}}"; 
     submitted_request = "{{ vdc }}".replace(/&quot;/g,'"');
-    submitted_request =  submitted_request.replace(/\:/g, ": ");
+    //submitted_request =  submitted_request.replace(/\:/g, ": ");
     submitted_request = submitted_request.slice(1, submitted_request.length-1);
-    submitted_request = JSON.parse(submitted_request);
     console.log(submitted_request);
+    submitted_request = JSON.parse(submitted_request);
     flavors = "{{flavors_js}}".replace(/&quot;/g,'"'); 
     flavors = JSON.parse(flavors);
     images = "{{images_js}}".replace(/&quot;/g,'"');
     images = JSON.parse(images);
-    if (submitted_request.vnodes == null) {
-        console.log("NULL SUBMITED REQUEST");
-        jsState = "uninitialized";
-    } else {
-        jsState = "initialized";
-        request = submitted_request;
-    }
 </script>
 {% endblock %}
