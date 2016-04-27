@@ -151,6 +151,7 @@ $(function () {
                                 });
                                 nodes.update(new_vnodes);
                                 edges.update(new_vlinks);
+                                $('#network').effect("highlight", {color: "#00AAA0"}, 600);
                             }
                         },
                         error: function(response) {
