@@ -34,7 +34,15 @@
     -moz-animation:spin 2s linear infinite;
     animation:spin 2s linear infinite;
 }
-
+#stabilize-network {
+    padding-top: 7px;
+    position: relative;
+    top: 1px;
+    border-bottom: 0px solid black;
+}
+#clear-vdc, #submit-vdc {
+    float: right;
+}
 .has-spinner.active {
   cursor:progress;
 }

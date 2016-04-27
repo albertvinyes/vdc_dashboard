@@ -30,8 +30,6 @@ function load_topology() {
     request = submitted_request;
     var submitted_nodes = submitted_request.vnodes;
     var submitted_edges = submitted_request.vlinks;
-    vis_new_nodes = new vis.DataSet($.jStorage.get("nodes"));
-    vis_js_edges = new vis.DataSet($.jStorage.get("edges"));
     /* Add the submitted vdc to the network */
     for (var key in submitted_nodes) {
         nodes.add({

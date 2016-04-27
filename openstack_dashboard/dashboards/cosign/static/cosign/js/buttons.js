@@ -172,5 +172,8 @@ $(function () {
             }
         });
     });
+    $('#stabilize-network').click(function () {
+        network.stabilize();
+    });
 });
 

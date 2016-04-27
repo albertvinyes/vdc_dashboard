@@ -6,9 +6,6 @@ body, html {
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
-.initialized {
-    display:none;
-}
 .row {
     width:100%;
 }
@@ -122,9 +119,6 @@ pre {
 }
 .key { 
     color: #3366FF; 
-}
-#clear-vdc, #submit-vdc {
-    float: right;
 }
 .inactive::before {
     content: "";
