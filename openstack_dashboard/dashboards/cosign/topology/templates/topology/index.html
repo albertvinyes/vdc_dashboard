@@ -28,10 +28,10 @@
     jsState = "{{state}}";
     tenant_id = "{{tenant_id}}"; 
     submitted_request = "{{ vdc }}".replace(/&quot;/g,'"');
-    //submitted_request =  submitted_request.replace(/\:/g, ": ");
     submitted_request = submitted_request.slice(1, submitted_request.length-1);
-    console.log(submitted_request);
-    submitted_request = JSON.parse(submitted_request);
+    if (submitted_request.indexOf("Incorrect") < 0) {
+        submitted_request = JSON.parse(submitted_request);
+    }
     flavors = "{{flavors_js}}".replace(/&quot;/g,'"'); 
     flavors = JSON.parse(flavors);
     images = "{{images_js}}".replace(/&quot;/g,'"');

@@ -155,7 +155,7 @@ function get_topology_options() {
                             if (request.vnodes[i].id == id) break;
                         }
                         request.vnodes[i].label = result;
-                        show_topology(request);
+                        show_request(request);
                     }
                 });
             },
@@ -260,8 +260,6 @@ $(function() {
     vis_new_edges = new vis.DataSet();
     /* If there's no topology request create a new one */
     if (submitted_request.vnodes == null) {
-        console.log("submitted request nodes is null");
-        console.log(submitted_request);
         var options = get_topology_options();
         request = {
             tenantID: tenant_id,

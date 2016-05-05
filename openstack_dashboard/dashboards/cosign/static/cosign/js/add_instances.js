@@ -7,7 +7,7 @@ $(function() {
         $('#flavor_name').html(flavors[val].name);
         $('#flavor_vcpus').html(flavors[val].vcpu);
         $('#flavor_disk').html(flavors[val].disk);
-        $('#flavor_disk_total').html(flavors[val].disk);
+        $('#flavor_disk_total').html(flavors[val].disk + flavors[val].ephemeral);
         $('#flavor_ram').html(flavors[val].memory);
     });
     $('#add_instances_button').click(function() {
@@ -39,7 +39,7 @@ $(function() {
                         imageID: image
                     };
                     request.vnodes[i].vms.push(obj);
-                    save_topology();
+                    show_request(request);
                 }
             }
         }

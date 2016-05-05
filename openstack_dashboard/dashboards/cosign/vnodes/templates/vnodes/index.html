@@ -1,15 +1,67 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}{% trans "vNodes List" %}{% endblock %}
+{% block title %}{% trans "Virtual Nodes" %}{% endblock %}
 
 {% block page_header %}
-   {% include "horizon/common/_page_header.html" with title=_("vNode List") %}
+    {% include "horizon/common/_page_header.html" with title=_("Virtual Nodes") %}
+<link rel="stylesheet" href="{{ STATIC_URL }}cosign/css/tables.css" type="text/css" media="screen" >
+<script type="text/javascript" src="{{ STATIC_URL }}cosign/js/jquery.tablesorter.pager.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}cosign/js/jquery.metadata.js"></script>
 {% endblock page_header %}
 
 {% block main %}
 <div class="row">
    <div class="col-sm-12">
-   {{ tab_group.render }}
-   </div>
+        <table id="vnode-table" class="table table-striped datatable tablesorter">
+            <thead>
+                <tr class="table_column_header">
+                    <th >
+                        Name
+                    </th>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Number of Instances
+                    </th>
+                    <th>
+                        VCPUs
+                    </th>
+                    <th>
+                        Total RAM
+                    </th>
+                    <th class="tablesorter-headerDesc">
+                        Total Disk
+                    </th>
+                </tr>
+           </thead>
+           <tbody>
+              {% for vnode in virtual_nodes %}
+                 <tr>
+                    <td>  {{ vnode.label }} </td>
+                    <td>  {{ vnode.id }} </td>
+                    <td>  {{ vnode.vms|length }} </td>
+                    <td>  {{ vnode.vcpus }} </td>
+                    <td>  {{ vnode.total_ram }}</td>
+                    <td>  {{ vnode.total_disk }}</td>
+                 </tr>
+              {% endfor %}
+           </tbody>
+           <tfoot>
+              <tr>
+                 <td colspan="6">
+                    <span class="table_count"></span>
+                 </td>
+              </tr>
+           </tfoot>
+        </table>
+    </div>
 </div>
+<script>
+    $(document).ready(function() 
+        { 
+            $("#vnode-table").tablesorter(); 
+        } 
+    ); 
+</script>
 {% endblock %}

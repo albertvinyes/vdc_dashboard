@@ -1,18 +1,68 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}{% trans "Vlinks" %}{% endblock %}
+{% block title %}{% trans "Virtual Links" %}{% endblock %}
 
 {% block page_header %}
-  {% include "horizon/common/_page_header.html" with title=_("vLinks List") %}
+  {% include "horizon/common/_page_header.html" with title=_("Virtual Links") %}
 {% endblock page_header %}
-
+<link rel="stylesheet" href="{{ STATIC_URL }}cosign/css/tables.css" type="text/css" media="screen" >
+<script type="text/javascript" src="{{ STATIC_URL }}cosign/js/jquery.tablesorter.pager.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}cosign/js/jquery.metadata.js"></script>
 {% block main %}
-
 <div class="row">
    <div class="col-sm-12">
-   {{ tab_group.render }}
-   </div>
+        <table id="vlink-table" class="table table-striped datatable tablesorter">
+            <thead>
+                <tr class="table_column_header">
+                    <th class="header">
+                        ID
+                    </th>
+                    <th class="header tablesorter-headerDesc">
+                        Source Name
+                    </th>
+                    <th class="header tablesorter-headerDesc">
+                        Destination Name
+                    </th>
+                    <th class="header">
+                        Source ID
+                    </th>
+                    <th class="header">
+                        Destination ID
+                    </th>
+                    <th class="header tablesorter-headerDesc">
+                        Bandwith
+                    </th>
+                </tr>
+           </thead>
+           <tbody>
+              {% for vlink in virtual_links %}
+                 <tr>
+                    <td>  {{ vlink.id }} </td>
+                    <td>  {{ vlink.from_name }} </td>
+                    <td>  {{ vlink.to_name }} </td>
+                    <td>  {{ vlink.from }} </td>
+                    <td>  {{ vlink.to }} </td>
+                    <td>  {{ vlink.bandwith }} Mbps</td>
+                 </tr>
+              {% endfor %}
+           </tbody>
+           <tfoot>
+              <tr>
+                 <td colspan="6">
+                    <span class="table_count"></span>
+                 </td>
+              </tr>
+           </tfoot>
+        </table>
+    </div>
 </div>
+<script>
+    $(document).ready(function() 
+        { 
+            $("#vlink-table").tablesorter(); 
+        } 
+    ); 
+</script>
 {% endblock %}
 
 

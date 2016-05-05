@@ -53,12 +53,14 @@ class IndexView(views.APIView):
                                        for flavor in flavors])
             for key in full_flavors:
                 flavor = api.nova.flavor_get(self.request, key)
+                eph = getattr(flavor, 'OS-FLV-EXT-DATA:ephemeral')
                 flavors_info[key] = {"name": flavor.name,
                        "vcpu": flavor.vcpus,
                        "memory": flavor.ram,
                        "disk": flavor.disk,
                        "swap": flavor.swap,
                        "rxtx_factor": flavor.rxtx_factor,
+                       "ephemeral": eph,
                        "is_public": flavor.is_public}
         except Exception:
             flavors = []

@@ -20,6 +20,7 @@ $(function () {
             },
             callback: function(result) {
                 if (result) {
+                    $('#clear-vdc').addClass('active');
                     /* Tell Horizon the VDC must be unstacked */
                     $.ajax({
                         type:"POST",
@@ -27,19 +28,19 @@ $(function () {
                         xhrFields: {withCredentials: true},
                         url: document.URL+"delete_vdc/",
                         beforeSend: function() {
-                            $('#clear-vdc').toggleClass('active');
                             $("#clear-vdc").prop('disabled', true);
                             $("#submit-vdc").prop('disabled', true);
                             $('.vis-button').hide();
                         },
                         complete: function(response) {
-                            $('#clear-vdc').toggleClass('active');
+                            $('#clear-vdc').removeClass('active');
                             $("#clear-vdc").prop('disabled', false);
                             $("#submit-vdc").prop('disabled', false);
                             $('.vis-button').show();
                             console.log(response);
                         },
                         success: function(response) {
+                            $('#clear-vdc').removeClass('active');
                             response = response.slice(1, response.length-1);
                             if (response == "Delete operation has been processed") {
                                 /* Show notification */
@@ -73,11 +74,11 @@ $(function () {
                                     vnodes: [],
                                     vlinks: [],
                                 };
-                                save_topology();
+                                show_request(request);
                             }
                         },
                         error: function(response) {
-                            $('#clear-vdc').toggleClass('active');
+                            $('#clear-vdc').removeClass('active');
                             $.bootstrapGrowl(response, {
                                 ele: 'body', // which element to append to
                                 type: 'danger', // (null, 'info', 'danger', 'success')
@@ -114,6 +115,7 @@ $(function () {
                 if (result) {
                     /* TODO: Tell the algorithms to deploy the request */
                     var url = document.URL+"submit_vdc/";
+                    $('#submit-vdc').addClass('active');
                     $.ajax({
                         type:"POST",
                         crossDomain: true,
@@ -122,22 +124,17 @@ $(function () {
                         data: {csrfmiddlewaretoken: window.CSRF_TOKEN, json: JSON.stringify(request)},
                         dataType: 'json',
                         beforeSend: function() {
-                            $('#submit-vdc').toggleClass('active');
                             $("#clear-vdc").prop('disabled', true);
                             $("#submit-vdc").prop('disabled', true);
                             $('.vis-button').hide();
                         },
                         complete: function(response) {
-                            $('#submit-vdc').toggleClass('active');
+                            $('#submit-vdc').removeClass('active');
                             $("#clear-vdc").prop('disabled', false);
                             $("#submit-vdc").prop('disabled', false);
                             $('.vis-button').show();
-                            console.log("submit request complete");
-                            console.log(response)
                         },
                         success: function(response) {
-                            console.log("Request succes");
-                            console.log(response);
                             if (response == "The VDC given has been registered") {
                                 $.bootstrapGrowl(response, {
                                     ele: 'body', // which element to append to
@@ -155,7 +152,7 @@ $(function () {
                             }
                         },
                         error: function(response) {
-                            $('#submit-vdc').toggleClass('active');
+                            $('#submit-vdc').removeClass('active');
                             $.bootstrapGrowl(response, {
                                 ele: 'body',
                                 type: 'danger',
