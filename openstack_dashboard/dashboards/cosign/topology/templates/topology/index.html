@@ -10,17 +10,31 @@
 <p>
  Resize the canvas by scrolling up/down with your mouse/trackpad on the topology. Pan around the canvas by clicking and dragging the space behind the topology. 
 </p>
-{% include 'cosign/topology/buttons.html' %}
 {% csrf_token %}
 <!-- Topology container-->
 {% include 'cosign/topology/add_node.html' %}
 {% include 'cosign/topology/add_instances.html' %}
 {% include 'cosign/topology/balloon.html' %}
 <div class="row">
-    <div class="col-lg-8 col-md-7">
+    <div class="col-lg-8 col-md-8 col-xs-12">
+        <a class="btn btn-default no-border-radius no-border-bottom">
+            Center Topology
+        </a>
+        <a class="btn btn-primary has-spinner no-border-radius" id="submit-vdc">
+            <span class="spinner glyphicon glyphicon-refresh"></span>
+            Deploy
+        </a>
+        <a class="btn warning has-spinner no-border-radius" id="clear-vdc">
+            <span class="spinner glyphicon glyphicon-refresh"></span>
+            Clear
+        </a>
         <div id="network"></div>
     </div>
     <div class="col-lg-4 col-md-5">
+        <div class="btn btn-default g-copy no-border-radius"></div>
+        <input id="input-1" type="file" class="inputfile file">
+            <div class="btn btn-default g-upload no-border-radius" id="finput"></div>
+        </input>
         <pre id="request"></pre>
     </div>
 </div>

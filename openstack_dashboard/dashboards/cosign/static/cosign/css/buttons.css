@@ -31,8 +31,8 @@
     -moz-animation:spin 2s linear infinite;
     animation:spin 2s linear infinite;
 }
-#stabilize-network {
-    padding-top: 7px;
+.no-border-bottom {
+    padding-top: 5px;
     position: relative;
     top: 1px;
     border-bottom: 0px solid black;
@@ -50,17 +50,42 @@
 .has-spinner.btn-mini.active .spinner {
     width: 10px;
 }
-
 .has-spinner.btn-small.active .spinner {
     width: 13px;
 }
-
 .has-spinner.btn.active .spinner {
     width: 16px;
 }
-
 .has-spinner.btn-large.active .spinner {
     width: 19px;
+}
+.g-copy {
+    width: 36px;
+    height: 32px;
+    position: relative;
+    top: 1px;
+    border-bottom: 1px solid transparent;
+    display: inline-block;
+    background: url(../img/copy.svg) center no-repeat;
+}
+.g-upload {
+    width: 36px;
+    height: 32px;
+    position: relative;
+    top: 1px;
+    margin: -4px;
+    border-left: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    display: inline-block;
+    background: url(../img/upload.svg) center no-repeat;
+}
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }

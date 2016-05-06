@@ -63,7 +63,7 @@ function get_topology_options() {
             back: 'Back',
             addNode: 'Add Virtual Node',
             addEdge: 'Add Virtual Link',
-            editNode: 'Edit Virtual Node Label',
+            editNode: 'Edit Virtual Node Name',
             editEdge: 'Edit VIrtual Edge',
             addDescription: 'Click in an empty space to place a new virtual node.',
             edgeDescription: 'Click on a node and drag the edge to another node to connect them.',
@@ -144,7 +144,7 @@ function get_topology_options() {
             },
             editNode: function (data, callback) {
                 network.enableEditMode();
-                bootbox.prompt("Enter the new desired Label for the <b> "+ data.label +"</b> node", function(result) {
+                bootbox.prompt("Enter the new desired Name for the <b> "+ data.label +"</b> node", function(result) {
                     if (result) {
                         result = removeTags(result);
                         var id = network.getSelectedNodes()[0];
