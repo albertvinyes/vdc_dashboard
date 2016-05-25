@@ -129,6 +129,19 @@ $(function () {
             });
             return false;
         }
+        if (!changed) {
+            $.bootstrapGrowl("No changes to deploy.", {
+                ele: 'body',
+                type: 'info',
+                offset: {from: 'top', amount: 20},
+                align: 'right',
+                width: 'auto',
+                delay: 3000,
+                allow_dismiss: true,
+                stackup_spacing: 10
+            });
+            return false
+        }
         bootbox.confirm({
             title: 'Attention',
             message: 'Do you want to deploy the request?',
@@ -179,6 +192,7 @@ $(function () {
                                 });
                                 $('#network').effect("highlight", {color: "#00AAA0"}, 600);
                                 update_network_color();
+                                changed = false;
                             }
                         },
                         error: function(response) {

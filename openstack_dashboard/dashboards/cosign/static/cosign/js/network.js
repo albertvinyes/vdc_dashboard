@@ -5,6 +5,7 @@ var network = null;
 var topology = null;
 var vnode_index = null;
 var node = null;
+var changed = false;
 
 function destroy_topology() {
     if (network !== null) {
@@ -164,8 +165,7 @@ function get_topology_options() {
                     show_request(request);
                     $('#add_node').modal('hide');
                     network.disableEditMode();
-//                  network.stabilize();
-//                  network.fit();
+                    changed = true;
                 });
             },
             editNode: function (data, callback) {
@@ -182,6 +182,7 @@ function get_topology_options() {
                         }
                         request.vnodes[i].label = result;
                         show_request(request);
+                        changed = true;
                     }
                 });
             },
@@ -201,6 +202,7 @@ function get_topology_options() {
                             from: data.from,
                         });
                         show_request(request);
+                        changed = true;
                     }
                     else {
                         $.bootstrapGrowl("Bandwith must be a number", {
@@ -224,6 +226,7 @@ function get_topology_options() {
                 }
             },
             editEdge: false,
+            deleteEdge: false,
             deleteNode: false
         }
     };

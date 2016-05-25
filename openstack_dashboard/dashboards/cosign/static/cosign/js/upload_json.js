@@ -55,6 +55,7 @@ function check_json(json) {
                 allow_dismiss: true,
                 stackup_spacing: 10
             });
+            changed = true;
         }
     }
     catch(err) {

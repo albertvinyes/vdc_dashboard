@@ -30,6 +30,7 @@ function remove_instance_vnode(index) {
     a.hide();
     d.hide();
     show_request(request);
+    changed = true;
 }
 
 function remove_link(index) {
@@ -38,6 +39,7 @@ function remove_link(index) {
     request.vlinks.splice(index,1);
     edges.remove(edges.getIds(index)[index]);
     show_request(request);
+    changed = true;
 }
 
 function remove_vnode() {
@@ -65,4 +67,5 @@ function remove_vnode() {
         }
     }
     show_request(request);
+    changed = true;
 }
