@@ -10,7 +10,7 @@ function check_json(json) {
                 offset: {from: 'top', amount: 20},
                 align: 'right',
                 width: 'auto',
-                delay: 4000,
+                delay: 3000,
                 allow_dismiss: true,
                 stackup_spacing: 10
             });
@@ -36,7 +36,7 @@ function check_json(json) {
                 offset: {from: 'top', amount: 20},
                 align: 'right',
                 width: 'auto',
-                delay: 4000,
+                delay: 3000,
                 allow_dismiss: true,
                 stackup_spacing: 10
             });
@@ -51,7 +51,7 @@ function check_json(json) {
                 offset: {from: 'top', amount: 20},
                 align: 'right',
                 width: 'auto',
-                delay: 4000,
+                delay: 3000,
                 allow_dismiss: true,
                 stackup_spacing: 10
             });
@@ -64,7 +64,7 @@ function check_json(json) {
             offset: {from: 'top', amount: 20},
             align: 'right',
             width: 'auto',
-            delay: 4000,
+            delay: 3000,
             allow_dismiss: true,
             stackup_spacing: 10
         });

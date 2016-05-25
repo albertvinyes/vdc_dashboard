@@ -65,7 +65,7 @@ $(function () {
                         success: function(response) {
                             $('#clear-vdc').removeClass('active');
                             response = response.slice(1, response.length-1);
-                            if (response == "Delete operation has been processed") {
+                            if (response == "Delete operation has been processed" || response.indexOf("Incorrect") > 0) {
                                 /* Show notification */
                                 $.bootstrapGrowl(response, {
                                     ele: 'body', // which element to append to

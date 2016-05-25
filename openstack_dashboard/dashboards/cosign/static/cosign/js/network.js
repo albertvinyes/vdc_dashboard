@@ -187,9 +187,8 @@ function get_topology_options() {
             },
             addEdge: function (data, callback) {
                 bootbox.prompt("Enter the desired Bandwith in Mbps for the <b> Virtual Link </b>", function(result) {
-                    if(result) {
-                        // TODO: Bandwith must be a number
-                        result = removeTags(result);
+                    if (parseInt(result)) {
+                        result = parseInt(removeTags(result));
                         data.title = "Bw: " + result + " Mbps."
                         data.bandwith = result;
                         data.color = "#333333";
@@ -202,6 +201,19 @@ function get_topology_options() {
                             from: data.from,
                         });
                         show_request(request);
+                    }
+                    else {
+                        $.bootstrapGrowl("Bandwith must be a number", {
+                            ele: 'body',
+                            type: 'danger',
+                            offset: {from: 'top', amount: 20},
+                            align: 'right',
+                            width: 'auto',
+                            delay: 3000,
+                            allow_dismiss: true,
+                            stackup_spacing: 10
+                        });
+                        network.disableEditMode()
                     }
                 });
                 if (data.from == data.to) {

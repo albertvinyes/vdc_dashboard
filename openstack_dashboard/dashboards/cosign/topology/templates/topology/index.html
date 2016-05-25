@@ -41,8 +41,7 @@
 <script>
     //jsState = "{{state}}";
     submitted_request = "{{ vdc }}".replace(/&quot;/g,'"');
-    console.log(submitted_request);
-    if (submitted_request.indexOf("Incorrect") < 0) {
+    if (submitted_request != "None") {
         submitted_request = JSON.parse(submitted_request);
     }
     flavors = "{{flavors_js}}".replace(/&quot;/g,'"'); 
