@@ -379,3 +379,5 @@ auth_utils.patch_middleware_get_user()
 
 CSRF_COOKIE_AGE = None
 CSRF_COOKIE_SECURE = False
+
+ALLOWED_HOSTS = ['*']

@@ -28,22 +28,37 @@ function check_json(json) {
                     found_to = true;
                 }
             }
-            if (!found_to || !found_from) {
-                $.bootstrapGrowl("The supplied JSON has wrong virtual links", {
-                    ele: 'body',
-                    type: 'danger',
-                    offset: {from: 'top', amount: 20},
-                    align: 'right',
-                    width: 'auto',
-                    delay: 4000,
-                    allow_dismiss: true,
-                    stackup_spacing: 10
-                });
-            }
+        }
+        if (!found_to || !found_from) {
+            $.bootstrapGrowl("The supplied JSON has wrong virtual links", {
+                ele: 'body',
+                type: 'danger',
+                offset: {from: 'top', amount: 20},
+                align: 'right',
+                width: 'auto',
+                delay: 4000,
+                allow_dismiss: true,
+                stackup_spacing: 10
+            });
+        }
+        else {
+            clear_DOM_network();
+            request = submitted_request = file_upload;
+            load_topology(false);
+            $.bootstrapGrowl("Supplied VDC ready for deployment", {
+                ele: 'body',
+                type: 'info',
+                offset: {from: 'top', amount: 20},
+                align: 'right',
+                width: 'auto',
+                delay: 4000,
+                allow_dismiss: true,
+                stackup_spacing: 10
+            });
         }
     }
     catch(err) {
-        $.bootstrapGrowl("File content is not a JSON object", {
+        $.bootstrapGrowl("File content is not a VDC JSON object ", {
             ele: 'body',
             type: 'danger',
             offset: {from: 'top', amount: 20},
@@ -62,12 +77,21 @@ function readSingleFile(evt) {
     if (f) {
         var r = new FileReader();
         r.onload = function(e) { 
-            check_json()
+            check_json(e.target.result)
         }
         r.readAsText(f);
     }
     else {
-        alert("Failed to load file");
+        $.bootstrapGrowl("Error reading the file", {
+            ele: 'body',
+            type: 'danger',
+            offset: {from: 'top', amount: 20},
+            align: 'right',
+            width: 'auto',
+            delay: 4000,
+            allow_dismiss: true,
+            stackup_spacing: 10
+        });
     }
 }
 

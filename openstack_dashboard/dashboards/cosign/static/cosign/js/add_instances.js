@@ -32,7 +32,7 @@ $(function() {
                         nameCount = name + "-" + Number(k+1);
                     }
                     var obj = {
-                        id: flavor_name+"-"+image,
+                        //id: flavor_name+"-"+image,
                         label:  nameCount,
                         flavorName: flavor_name,
                         flavorID: flavor,

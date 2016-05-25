@@ -1,3 +1,26 @@
+function clear_DOM_network() {
+    var options = get_topology_options();
+    nodes = new vis.DataSet();
+    edges = new vis.DataSet();
+    var virtual_nodes = new vis.DataSet();
+    var virtual_links = new vis.DataSet();
+    topology = {
+        nodes: nodes,
+        edges: edges
+    };
+    container = document.getElementById('network');
+    network = new vis.Network(container, topology, options);
+    network.on("click", function (params) {
+        info_listener(params);
+    });
+    request = {
+        vnodes: [],
+        vlinks: [],
+    };
+    network.destroy();
+    show_request(request);
+}
+
 $(function () {
     /* CSRF TOKEN IS REQUIRED FOR AJAX REQUESTS*/
     $.ajaxSetup({
@@ -50,31 +73,12 @@ $(function () {
                                     offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
                                     align: 'right', // ('left', 'right', or 'center')
                                     width: 'auto', // (integer, or 'auto')
-                                    delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                                    delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
                                     allow_dismiss: true, // If true then will display a cross to close the popup.
                                     stackup_spacing: 10 // spacing between consecutively stacked growls.
                                 });
                                 /* Clear the DOM */
-                                var options = get_topology_options();
-                                nodes = new vis.DataSet();
-                                edges = new vis.DataSet();
-                                var virtual_nodes = new vis.DataSet();
-                                var virtual_links = new vis.DataSet();
-                                topology = {
-                                    nodes: nodes,
-                                    edges: edges
-                                };
-                                container = document.getElementById('network');
-                                network = new vis.Network(container, topology, options);
-                                network.on("click", function (params) {
-                                    info_listener(params);
-                                });
-                                request = {
-                                    tenantID: tenant_id,
-                                    vnodes: [],
-                                    vlinks: [],
-                                };
-                                show_request(request);
+                                clear_DOM_network();
                             }
                         },
                         error: function(response) {
@@ -85,7 +89,7 @@ $(function () {
                                 offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
                                 align: 'right', // ('left', 'right', or 'center')
                                 width: 'auto', // (integer, or 'auto')
-                                delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                                delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
                                 allow_dismiss: true, // If true then will display a cross to close the popup.
                                 stackup_spacing: 10 // spacing between consecutively stacked growls.
                            });
@@ -142,13 +146,12 @@ $(function () {
                                     offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
                                     align: 'right', // ('left', 'right', or 'center')
                                     width: 'auto', // (integer, or 'auto')
-                                    delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                                    delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
                                     allow_dismiss: true, // If true then will display a cross to close the popup.
                                     stackup_spacing: 10 // spacing between consecutively stacked growls.
                                 });
-                                nodes.update(new_vnodes);
-                                edges.update(new_vlinks);
                                 $('#network').effect("highlight", {color: "#00AAA0"}, 600);
+                                update_network_color();
                             }
                         },
                         error: function(response) {
@@ -159,7 +162,7 @@ $(function () {
                                 offset: {from: 'top', amount: 20},
                                 align: 'right',
                                 width: 'auto', 
-                                delay: 4000,
+                                delay: 3000,
                                 allow_dismiss: true,
                                 stackup_spacing: 10
                             });
@@ -174,6 +177,24 @@ $(function () {
     });
     $('#finput').click(function(){
         $("#input-1").click();
+    });
+    $('#copy-clipboard').click(function () {
+        var aux = document.createElement("input");
+        aux.setAttribute("value",JSON.stringify(request));
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
+        $.bootstrapGrowl("JSON has been copied to your clipboard", {
+            ele: 'body',
+            type: 'success',
+            offset: {from: 'top', amount: 20},
+            align: 'right',
+            width: 'auto',
+            delay: 3000,
+            allow_dismiss: true,
+            stackup_spacing: 10
+        });
     });
 });
 

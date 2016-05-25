@@ -41,8 +41,17 @@ class IndexView(views.APIView):
         vlinks = []
         r = requests.get("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id, auth=HTTPBasicAuth('admin', 'password'))
         print ".................................................................................."
-        print r.text
-        vdc = r.text
+        print ".................................................................................."
+        print ".................................................................................."
+        try:
+            vdc = json.loads(r.text)
+            vdc.pop("tenantID")
+            vdc = json.dumps(vdc)
+            print "DELETED TENANT ID FROM RECEIVED JSON"
+            print vdc
+        except:
+            vdc = None
+            print "Could not convert response to a JSON"
         flavors_info = {}
         images_info = []
         # Gather our flavors
@@ -79,8 +88,7 @@ class IndexView(views.APIView):
             exceptions.handle(self.request, ignore=True)
 
         # populate the context sent to the HTML template
-        context["vdc"] = json.dumps(vdc)
-        context["tenant_id"] = tenant_id
+        context["vdc"] = vdc
         context["flavors"] = flavors_info
         context["flavors_js"] = json.dumps(flavors_info)
         context["images"] = images_info
@@ -90,10 +98,18 @@ class IndexView(views.APIView):
 
 
 def submit_vdc(request):
-    vdc = request.POST['json']
+    vdc = json.loads(request.POST['json'])
+    vdc['tenantID' ] = tenant_id
+    vdc = json.dumps(vdc)
     headers = {'content-type': 'application/json'}
     r = requests.post("http://127.0.0.1:12119/orchestrator/algorithms/vdc/", vdc, auth=HTTPBasicAuth('admin', 'password'), headers=headers)
-    return HttpResponse(json.dumps(r.text))
+    try:
+        vdc = json.loads(r.text)
+        vdc.pop("tenantID")
+    except:
+        vdc = r.text
+        print "Could not convert response to a JSON"
+    return HttpResponse(json.dumps(vdc))
 
 def delete_vdc(request):
     r = requests.delete("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id, auth=HTTPBasicAuth('admin', 'password'))

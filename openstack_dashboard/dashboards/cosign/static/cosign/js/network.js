@@ -4,8 +4,6 @@ var edges = null;
 var network = null;
 var topology = null;
 var vnode_index = null;
-var new_vnodes = [];
-var new_vlinks = [];
 var node = null;
 
 function destroy_topology() {
@@ -13,22 +11,49 @@ function destroy_topology() {
         network.destroy();
         network = null;
     }
+    var nodes = null;
+    var edges = null;
 }
 
-function load_topology() {
+function update_network_color() {
+    var nodes_ids = nodes.getIds();
+    var edges_ids = edges.getIds();
+    var update_nodes = [];
+    var update_edges = [];
+    for (var i = 0; i < nodes_ids.length; i++) {
+        update_nodes.push({id: nodes_ids[i], image: STATIC_URL + "cosign/img/stack-green.svg"})
+    }
+    for (var e = 0; e < edges_ids.length; e++) {
+        update_edges.push({id: edges_ids[e], color: "#00AAA0"})
+    }
+    nodes.update(update_nodes);
+    edges.update(update_edges);
+}
+
+function load_topology(deployed) {
     destroy_topology();
     var container = document.getElementById('network');
     request = submitted_request;
     var submitted_nodes = submitted_request.vnodes;
     var submitted_edges = submitted_request.vlinks;
     /* Add the submitted vdc to the network */
+    var image = "cosign/img/stack";
+    var color = "";
+    if (deployed) {
+        image += "-green.svg";
+        color = "#00AAA0"
+    }
+    else {
+        image += "-gray.svg";
+        color = "#333333"
+    }
     for (var key in submitted_nodes) {
         nodes.add({
             id: submitted_nodes[key].id,
             label: submitted_nodes[key].label,
             x: submitted_nodes[key].x,
             y: submitted_nodes[key].y,
-            image: STATIC_URL + "cosign/img/stack-green.svg",
+            image: STATIC_URL + image,
             borderWidth: 0,
             shape: 'image',
             size: 40
@@ -41,7 +66,7 @@ function load_topology() {
             bandwith: submitted_edges[key].bandwith,
             to: submitted_edges[key].to,
             from: submitted_edges[key].from,
-            color: "#00AAA0"
+            color: color
         });
     }
     topology = {
@@ -51,7 +76,10 @@ function load_topology() {
     /* Create a new network with the retrieved data */
     var options = get_topology_options();
     network = new vis.Network(container, topology, options);
-    network.fit();
+//  network.fit();
+    network.on("click", function (params) {
+        info_listener(params);
+    });
     show_request(request);
 }
 
@@ -117,7 +145,6 @@ function get_topology_options() {
                         label: data.label,
                         vms: []
                     });
-                    new_vnodes.push({id: data.id, image: STATIC_URL + "cosign/img/stack-green.svg"});
                     var idArray = [];
                     $(".new-vnode-link").each(function() {
                         idArray.push(this.id);
@@ -132,14 +159,13 @@ function get_topology_options() {
                                 to: idArray[x],
                                 from: data.id
                             });
-                            new_vlinks.push({id: addedEdgeID[0], color: "#00AAA0"});
                         }
                     }
                     show_request(request);
                     $('#add_node').modal('hide');
                     network.disableEditMode();
-                    network.stabilize();
-                    network.fit();
+//                  network.stabilize();
+//                  network.fit();
                 });
             },
             editNode: function (data, callback) {
@@ -175,7 +201,6 @@ function get_topology_options() {
                             to: data.to,
                             from: data.from,
                         });
-                        new_vlinks.push({id: data.id, color: "#00AAA0"});             
                         show_request(request);
                     }
                 });
@@ -262,7 +287,6 @@ $(function() {
     if (submitted_request.vnodes == null) {
         var options = get_topology_options();
         request = {
-            tenantID: tenant_id,
             vnodes: [],
             vlinks: [],
         };
@@ -273,12 +297,12 @@ $(function() {
         var container = document.getElementById('network');
         network = new vis.Network(container, topology, options);
         network.fit();
+        network.on("click", function (params) {
+            info_listener(params);
+        });
     } /* Otherwise, load it*/ 
     else {
-        load_topology();
+        load_topology(true);
     }
-    network.on("click", function (params) {
-        info_listener(params);
-    });
     show_request(request);
 });

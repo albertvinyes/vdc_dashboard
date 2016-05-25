@@ -17,7 +17,7 @@
 {% include 'cosign/topology/balloon.html' %}
 <div class="row">
     <div class="col-lg-8 col-md-8 col-xs-12">
-        <a class="btn btn-default no-border-radius no-border-bottom">
+        <a id="stabilize-network" class="btn btn-default no-border-radius no-border-bottom">
             Center Topology
         </a>
         <a class="btn btn-primary has-spinner no-border-radius" id="submit-vdc">
@@ -31,7 +31,7 @@
         <div id="network"></div>
     </div>
     <div class="col-lg-4 col-md-5">
-        <div class="btn btn-default g-copy no-border-radius"></div>
+        <div id="copy-clipboard" class="btn btn-default g-copy no-border-radius"></div>
         <input id="input-1" type="file" class="inputfile file">
             <div class="btn btn-default g-upload no-border-radius" id="finput"></div>
         </input>
@@ -39,10 +39,9 @@
     </div>
 </div>
 <script>
-    jsState = "{{state}}";
-    tenant_id = "{{tenant_id}}"; 
+    //jsState = "{{state}}";
     submitted_request = "{{ vdc }}".replace(/&quot;/g,'"');
-    submitted_request = submitted_request.slice(1, submitted_request.length-1);
+    console.log(submitted_request);
     if (submitted_request.indexOf("Incorrect") < 0) {
         submitted_request = JSON.parse(submitted_request);
     }
