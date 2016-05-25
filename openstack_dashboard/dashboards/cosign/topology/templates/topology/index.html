@@ -17,23 +17,23 @@
 {% include 'cosign/topology/balloon.html' %}
 <div class="row">
     <div class="col-lg-8 col-md-8 col-xs-12">
-        <a id="stabilize-network" class="btn btn-default no-border-radius no-border-bottom">
-            Center Topology
+        <a id="stabilize-network" class="btn btn-default no-border-radius no-border-bottom" title="Center and stabilize the topology">
+            Center topology
         </a>
-        <a class="btn btn-primary has-spinner no-border-radius" id="submit-vdc">
+        <a class="btn btn-primary has-spinner no-border-radius" id="submit-vdc" title="Deploy changes">
             <span class="spinner glyphicon glyphicon-refresh"></span>
             Deploy
         </a>
-        <a class="btn warning has-spinner no-border-radius" id="clear-vdc">
+        <a class="btn warning has-spinner no-border-radius" id="clear-vdc" title="Unstack">
             <span class="spinner glyphicon glyphicon-refresh"></span>
-            Clear
+            Unstack
         </a>
         <div id="network"></div>
     </div>
     <div class="col-lg-4 col-md-5">
-        <div id="copy-clipboard" class="btn btn-default g-copy no-border-radius"></div>
+        <div id="copy-clipboard" class="btn btn-default g-copy no-border-radius" title="Copy JSON to clipboard"></div>
         <input id="input-1" type="file" class="inputfile file">
-            <div class="btn btn-default g-upload no-border-radius" id="finput"></div>
+            <div class="btn btn-default g-upload no-border-radius" id="finput" title="Upload a request JSON file"></div>
         </input>
         <pre id="request"></pre>
     </div>

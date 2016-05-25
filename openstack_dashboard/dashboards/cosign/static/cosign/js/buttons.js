@@ -1,9 +1,15 @@
 function clear_DOM_network() {
+    console.log("clearin topology");
+    network.destroy();
     var options = get_topology_options();
     nodes = new vis.DataSet();
     edges = new vis.DataSet();
     var virtual_nodes = new vis.DataSet();
     var virtual_links = new vis.DataSet();
+    request = {
+        vnodes: [],
+        vlinks: [],
+    };
     topology = {
         nodes: nodes,
         edges: edges
@@ -13,11 +19,6 @@ function clear_DOM_network() {
     network.on("click", function (params) {
         info_listener(params);
     });
-    request = {
-        vnodes: [],
-        vlinks: [],
-    };
-    network.destroy();
     show_request(request);
 }
 
@@ -28,16 +29,29 @@ $(function () {
     });
     /* BUTTON METHODS */
     $('#clear-vdc').click(function() {
+        if (request.vnodes.length == 0) {
+            $.bootstrapGrowl("Nothing to unstack.", {
+                ele: 'body',
+                type: 'danger',
+                offset: {from: 'top', amount: 20},
+                align: 'right',
+                width: 'auto',
+                delay: 3000,
+                allow_dismiss: true,
+                stackup_spacing: 10
+            });
+            return false;
+        }
         bootbox.confirm({
             title: 'Warning',
-            message: 'Are you sure you want to clear the request?',
+            message: 'Are you sure you want to unstack the deployment? This action can not be undone.',
             buttons: {
                 'cancel': {
                     label: 'Cancel',
                     className: 'btn-default pull-left'
                 },
                 'confirm': {
-                    label: 'Clear',
+                    label: 'Unstack',
                     className: 'btn-danger pull-right'
                 }
             },
@@ -65,9 +79,9 @@ $(function () {
                         success: function(response) {
                             $('#clear-vdc').removeClass('active');
                             response = response.slice(1, response.length-1);
-                            if (response == "Delete operation has been processed" || response.indexOf("Incorrect") > 0) {
+                            if (response == "Delete operation has been processed" || response.indexOf("Incorrect") >= 0) {
                                 /* Show notification */
-                                $.bootstrapGrowl(response, {
+                                $.bootstrapGrowl("Delete operation has been processed.", {
                                     ele: 'body', // which element to append to
                                     type: 'success', // (null, 'info', 'danger', 'success')
                                     offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
@@ -102,6 +116,19 @@ $(function () {
         });
     });
     $('#submit-vdc').click(function() {
+        if (request.vnodes.length == 0) {
+            $.bootstrapGrowl("Nothing to deploy.", {
+                ele: 'body',
+                type: 'danger',
+                offset: {from: 'top', amount: 20},
+                align: 'right',
+                width: 'auto',
+                delay: 3000,
+                allow_dismiss: true,
+                stackup_spacing: 10
+            });
+            return false;
+        }
         bootbox.confirm({
             title: 'Attention',
             message: 'Do you want to deploy the request?',
