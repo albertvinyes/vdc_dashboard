@@ -299,7 +299,7 @@ $(function() {
     vis_new_nodes = new vis.DataSet();
     vis_new_edges = new vis.DataSet();
     /* If there's no topology request create a new one */
-    if (submitted_request.vnodes == null) {
+    if (submitted_request == null) {
         var options = get_topology_options();
         request = {
             vnodes: [],
