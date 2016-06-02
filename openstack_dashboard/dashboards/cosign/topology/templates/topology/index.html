@@ -40,13 +40,13 @@
 </div>
 <script>
     //jsState = "{{state}}";
-    submitted_request = "{{ vdc }}".replace(/&quot;/g,'"');
-    if (submitted_request != "") {
-        submitted_request = JSON.parse(submitted_request);
-    }
     flavors = "{{flavors_js}}".replace(/&quot;/g,'"'); 
     flavors = JSON.parse(flavors);
     images = "{{images_js}}".replace(/&quot;/g,'"');
     images = JSON.parse(images);
+    submitted_request = "{{ vdc }}".replace(/&quot;/g,'"');
+    if (submitted_request != "None") {
+        submitted_request = JSON.parse(submitted_request);
+    }
 </script>
 {% endblock %}
