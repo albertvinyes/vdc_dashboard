@@ -41,7 +41,7 @@
 <script>
     //jsState = "{{state}}";
     submitted_request = "{{ vdc }}".replace(/&quot;/g,'"');
-    if (submitted_request != "None") {
+    if (submitted_request != "") {
         submitted_request = JSON.parse(submitted_request);
     }
     flavors = "{{flavors_js}}".replace(/&quot;/g,'"'); 
