@@ -40,18 +40,12 @@ class IndexView(views.APIView):
         vnodes = []
         vlinks = []
         r = requests.get("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id, auth=HTTPBasicAuth('admin', 'password'))
-        print ".................................................................................."
-        print ".................................................................................."
-        print ".................................................................................."
         try:
             vdc = json.loads(r.text)
             vdc.pop("tenantID")
             vdc = json.dumps(vdc)
-            print "DELETED TENANT ID FROM RECEIVED JSON"
-            print vdc
         except:
             vdc = None
-            print "Could not convert response to a JSON"
         flavors_info = {}
         images_info = []
         # Gather our flavors
@@ -108,7 +102,6 @@ def submit_vdc(request):
         vdc.pop("tenantID")
     except:
         vdc = r.text
-        print "Could not convert response to a JSON"
     return HttpResponse(json.dumps(vdc))
 
 def delete_vdc(request):

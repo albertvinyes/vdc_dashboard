@@ -34,9 +34,9 @@ function update_network_color() {
 function load_topology(deployed) {
     destroy_topology();
     var container = document.getElementById('network');
-    request = submitted_request;
-    var submitted_nodes = submitted_request.vnodes;
-    var submitted_edges = submitted_request.vlinks;
+    request = jQuery.extend(true, {}, submitted_request);
+    var submitted_nodes = jQuery.extend(true, {}, submitted_request.vnodes);
+    var submitted_edges = jQuery.extend(true, {}, submitted_request.vlinks);
     /* Add the submitted vdc to the network */
     var image = "cosign/img/stack";
     var color = "";

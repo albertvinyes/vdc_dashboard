@@ -13,15 +13,13 @@
 from django.conf.urls import patterns
 from django.conf.urls import url
 
-from openstack_dashboard.dashboards.cosign.topology.views \
-    import IndexView
 from openstack_dashboard.dashboards.cosign.topology \
     import views
 
 
 urlpatterns = patterns(
     '',
-    url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^get_vdc/$', views.get_vdc, name='get_vdc'),
     url(r'^delete_vdc/$', views.delete_vdc, name='delete_vdc'),
     url(r'^submit_vdc/$', views.submit_vdc, name='submit_vdc')
