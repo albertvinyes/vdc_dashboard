@@ -24,13 +24,6 @@ import json
 
 tenant_id = "null"
 
-class VirtualNode(object):
-    def __init__(self, label, top, left):
-        self.label = label
-        self.top = top
-        self.left = left
-        self.identifier = str(uuid.uuid4())
-
 class IndexView(views.APIView):
     template_name = 'cosign/topology/index.html'
     def get_data(self, request, context, *args, **kwargs):
@@ -90,13 +83,13 @@ class IndexView(views.APIView):
         context["state"] = "initialized"
         return context
 
-
 def submit_vdc(request):
     vdc = json.loads(request.POST['json'])
     vdc['tenantID' ] = tenant_id
     vdc = json.dumps(vdc)
     headers = {'content-type': 'application/json'}
-    r = requests.post("http://127.0.0.1:12119/orchestrator/algorithms/vdc/", vdc, auth=HTTPBasicAuth('admin', 'password'), headers=headers)
+    r = requests.post("http://127.0.0.1:12119/orchestrator/algorithms/vdc/", 
+            vdc, auth=HTTPBasicAuth('admin', 'password'), headers=headers)
     try:
         vdc = json.loads(r.text)
         vdc.pop("tenantID")
@@ -105,13 +98,14 @@ def submit_vdc(request):
     return HttpResponse(json.dumps(vdc))
 
 def delete_vdc(request):
-    r = requests.delete("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id, auth=HTTPBasicAuth('admin', 'password'))
+    r = requests.delete("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id,
+            auth=HTTPBasicAuth('admin', 'password'))
     return HttpResponse(json.dumps(r.text))
 
 def get_vdc(request):
-    r = requests.get("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id, auth=HTTPBasicAuth('admin', 'password'))
+    r = requests.get("http://127.0.0.1:12119/orchestrator/algorithms/vdc/?tenantID="+tenant_id,
+            auth=HTTPBasicAuth('admin', 'password'))
     return HttpResponse(json.dumps(r.text))
-
 
 def index(request):
     index = "index"

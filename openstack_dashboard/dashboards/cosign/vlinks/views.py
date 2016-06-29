@@ -1,4 +1,3 @@
-from horizon import tabs
 from collections import OrderedDict
 from horizon import views
 from openstack_dashboard import api
@@ -11,12 +10,8 @@ import requests
 from requests.auth import HTTPBasicAuth
 import uuid
 import json
-from openstack_dashboard.dashboards.cosign.vlinks \
-    import tabs as mydashboard_tabs
-
 
 class IndexView(views.APIView):
-    tab_group_class = mydashboard_tabs.VirtualLinksTabs
     template_name = 'cosign/vlinks/index.html'
     
     @staticmethod

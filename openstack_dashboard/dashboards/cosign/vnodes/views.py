@@ -1,6 +1,3 @@
-from horizon import tabs
-from openstack_dashboard.dashboards.cosign.vnodes \
-    import tabs as mydashboard_tabs
 from collections import OrderedDict
 from horizon import views
 from openstack_dashboard import api
@@ -17,7 +14,6 @@ import json
 
 
 class IndexView(views.APIView):
-    tab_group_class = mydashboard_tabs.VirtualNodesTabs
     template_name = 'cosign/vnodes/index.html'
 
     @staticmethod

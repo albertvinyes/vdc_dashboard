@@ -133,7 +133,6 @@ function get_topology_options() {
                     $('#add_vnode_link_list').append('<div><input class="new-vnode-link" id=' + request.vnodes[n].id + ' type="number" min="1" placeholder="Bandwith"> to <label>'+ request.vnodes[n].label +'</label> </div>');
                 }
                 if (nodes.length == 0) $('#add-node-description').hide();
-                else $('#add-node-description').show();
                 $('#add_vnode_submit').unbind().click(function(data) {
                     var label = $('#node_name').val();
                     data.label = removeTags(label);
