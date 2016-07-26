@@ -1,5 +1,4 @@
 function clear_DOM_network() {
-    console.log("clearin topology");
     network.destroy();
     var options = get_topology_options();
     nodes = new vis.DataSet();
@@ -168,15 +167,15 @@ $(function () {
                         data: {csrfmiddlewaretoken: window.CSRF_TOKEN, json: JSON.stringify(request)},
                         dataType: 'json',
                         beforeSend: function() {
-                            $("#clear-vdc").prop('disabled', true);
+                            /*$("#clear-vdc").prop('disabled', true);
                             $("#submit-vdc").prop('disabled', true);
-                            $('.vis-button').hide();
+                            $('.vis-button').hide();*/
                         },
                         complete: function(response) {
                             $('#submit-vdc').removeClass('active');
-                            $("#clear-vdc").prop('disabled', false);
+                            /*$("#clear-vdc").prop('disabled', false);
                             $("#submit-vdc").prop('disabled', false);
-                            $('.vis-button').show();
+                            $('.vis-button').show();*/
                         },
                         success: function(response) {
                             if (response == "The VDC given has been registered") {

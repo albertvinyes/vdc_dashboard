@@ -40,9 +40,15 @@ $ cd horizon_vdc/
 $ cp openstack_dashboard/local/local_settings.py.example openstack_dashboard/local/local_settings.py
 $ python manage.py migrate_settings --gendiff
 
-Now everything is ready. Choose to port a run the server, for instance 8877.
+Now everything is almost ready. Choose a port to run the server, for instance 8877, and run:
 
 $ ./run_tests.sh --runserver 0.0.0.0:8877
+
+============
+Note that the dashboard will need the Algorithm's Module to be running in the same machine with the credentials:
+u: admin
+p: password
+===========
 
 See ``doc/source/topics/install.rst`` about how to install Horizon
 in your OpenStack setup. It describes the example steps and
