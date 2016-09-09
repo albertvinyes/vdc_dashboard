@@ -9,40 +9,6 @@ body, html {
 .no-margin {
     margin: 0 !important;
 }
-.vis-manipulation {
-    padding: 4px !important;
-    height: auto !important;
-}
-.vis-button {
-    border: none !important;
-    border-radius: 0 !important;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-}
-.vis-button:hover {
-    box-shadow:none !important;
-    text-decoration: underline;
-}
-.vis-none:hover {
-    text-decoration: none;
-}
-.vis-edit {
-    background-image: url("../img/editIcon.png") !important;
-}
-.vis-add {
-    background-image: url("../img/addNodeIcon.png") !important;
-}
-.vis-connect {
-    background-image: url("../img/connectIcon.png") !important;
-}
-.vis-delete {
-    background-image: url("../img/deleteIcon.png") !important;
-}
-.vis-back {
-    background-image: url("../img/backIcon.png") !important;
-}
-.vis-close {
-    background-image: url("../img/cross.png") !important;
-}
 #network {
     height: auto;
     margin-bottom: 10px;

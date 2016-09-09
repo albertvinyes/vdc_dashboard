@@ -91,3 +91,40 @@
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+/* FORCE CSS to overwrite default vis.js appearance */
+.vis-manipulation {
+    padding: 4px !important;
+    height: auto !important;
+}
+.vis-button {
+    border: none !important;
+    border-radius: 0 !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    background: none !important;
+    background-repeat: no-repeat !important;
+}
+.vis-button:hover {
+    box-shadow:none !important;
+    text-decoration: underline;
+}
+.vis-none:hover {
+    text-decoration: none;
+}
+.vis-edit {
+    background-image: url("../img/editIcon.png") !important;
+}
+.vis-add {
+    background-image: url("../img/addNodeIcon.png") !important;
+}
+.vis-connect {
+    background-image: url("../img/connectIcon.png") !important;
+}
+.vis-delete {
+    background-image: url("../img/deleteIcon.png") !important;
+}
+.vis-back {
+    background-image: url("../img/backIcon.png") !important;
+}
+.vis-close {
+    background-image: url("../img/cross.png") !important;
+}
